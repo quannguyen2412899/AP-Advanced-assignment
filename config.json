@@ -1,0 +1,11 @@
+{
+    "populationSize": 100,
+    "chromosomeLength": 100,
+    "tournamentSize": 3,
+    "crossoverRate": 0.9,
+    "mutationRate": 0.01,
+    "elitismCount": 2,
+    "maxGenerations": 300,
+    "KnapsackCapacityOverTotal": 0.4,
+    "randomSeed": 42
+}
