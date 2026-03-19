@@ -1,6 +1,6 @@
 package strategies;
 
-import java.util.BitSet;
+import models.Chromosome;
 
 public class BitFlipMutation implements MutationStrategy {
     private double ratePerBit;
@@ -14,8 +14,9 @@ public class BitFlipMutation implements MutationStrategy {
     }
 
     @Override
-    public void mutate(BitSet chromosome) {
+    public Chromosome mutate(Chromosome chromosome) {
         /* implementations */
+        return null;
     }
 
 }

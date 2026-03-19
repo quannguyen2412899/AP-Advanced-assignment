@@ -12,7 +12,7 @@ public class KnapsackFitnessEvaluator implements FitnessEvaluator {
     }
 
     @Override
-    public double evalutate(BitSet chromosome) {
+    public double evaluate(BitSet chromosome) {
 
         /* implementations */
 

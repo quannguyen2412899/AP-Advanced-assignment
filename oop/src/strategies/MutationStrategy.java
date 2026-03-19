@@ -1,7 +1,7 @@
 package strategies;
 
-import java.util.BitSet;
+import models.Chromosome;
 
 public interface  MutationStrategy {
-    void mutate(BitSet chromosome);
+    Chromosome mutate(Chromosome chromosome);
 }

@@ -2,7 +2,7 @@ package strategies;
 
 import models.*;
 
-public class Electism {
+public class Elitism {
     Chromosome[] select(Population population, int count) {
         return null;
     }
