@@ -1,12 +1,10 @@
 package models;
 
-import java.util.List;
-
 public class Population {
-    private List<Chromosome> population;
+    private Chromosome[] population;
     private int size;
 
-    Population(List<Chromosome> population) {
+    Population(Chromosome[] population, int size) {
         /* implements */
     }
 
@@ -15,7 +13,7 @@ public class Population {
         return null;
     }
 
-    public List<Chromosome> getPopulation() {
+    public Chromosome[] getPopulation() {
         /* implements - return unmodifiable view */
         return null;
     }
