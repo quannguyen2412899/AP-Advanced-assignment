@@ -8,7 +8,11 @@ public class GeneticAlgorithm {
     private EvolutionStep oneStepEvolution;
     private int maxGenerations;
     
-    public GeneticAlgorithm(GAConfig config) {
+    public GeneticAlgorithm(FitnessEvaluator fe,
+                        Elitism e,
+                        SelectionStrategy ss,
+                        CrossoverStrategy cs,
+                        MutationStrategy ms) {
         /* implements */
     }
 
@@ -25,9 +29,10 @@ class EvolutionStep {
     private MutationStrategy mutationStrategy;
 
     public EvolutionStep(FitnessEvaluator fe,
-                SelectionStrategy ss,
-                CrossoverStrategy cs,
-                MutationStrategy ms) {
+                        Elitism e,
+                        SelectionStrategy ss,
+                        CrossoverStrategy cs,
+                        MutationStrategy ms) {
     
     }
     public Population evolve(Population population) {

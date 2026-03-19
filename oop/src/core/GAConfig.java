@@ -6,11 +6,14 @@ import strategies.*;
 
 public class GAConfig {
 
-    GAConfig(String problem, String configFile) {
+    public GAConfig(String problem, String configFile) {
 
     }
 
     public FitnessEvaluator fitnessEvaluator() {
+        return null;
+    }
+    public Elitism elitism() {
         return null;
     }
     public SelectionStrategy selectionStrategy() {
@@ -22,7 +25,7 @@ public class GAConfig {
     public MutationStrategy mutationStrategy() {
         return null;
     }
-    public Chromosome[] generateRandomPopulation() {
+    public Population generateRandomPopulation() {
         return null;
     }
     public int populationSize() {

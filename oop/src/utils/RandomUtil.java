@@ -10,7 +10,11 @@ public class RandomUtil {
         /* singleton pattern */
     }
 
-    public static RandomUtil getInstance(int randomSeed) {
+    public static void init(int seed) {
+        
+    }
+
+    public static RandomUtil getInstance() {
         /* singleton pattern */
         return null;
     }
