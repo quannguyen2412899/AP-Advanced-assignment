@@ -1,6 +1,7 @@
 package core;
 
 import fitnesses.FitnessEvaluator;
+import java.util.random.RandomGenerator;
 import models.Population;
 import strategies.*;
 
@@ -9,10 +10,11 @@ public class GeneticAlgorithm {
     private int maxGenerations;
     
     public GeneticAlgorithm(FitnessEvaluator fe,
-                        Elitism e,
-                        SelectionStrategy ss,
-                        CrossoverStrategy cs,
-                        MutationStrategy ms) {
+                            ElitismStrategy es,
+                            SelectionStrategy ss,
+                            CrossoverStrategy cs,
+                            MutationStrategy ms,
+                            RandomGenerator random) {
         /* implements */
     }
 
@@ -24,12 +26,13 @@ public class GeneticAlgorithm {
 
 class EvolutionStep {
     private FitnessEvaluator fitnessEvaluator;
+    private ElitismStrategy elitismStrategy;
     private SelectionStrategy selectionStrategy;
     private CrossoverStrategy crossoverStrategy;
     private MutationStrategy mutationStrategy;
 
     public EvolutionStep(FitnessEvaluator fe,
-                        Elitism e,
+                        ElitismStrategy es,
                         SelectionStrategy ss,
                         CrossoverStrategy cs,
                         MutationStrategy ms) {

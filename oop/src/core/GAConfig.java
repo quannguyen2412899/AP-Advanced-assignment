@@ -1,19 +1,20 @@
 package core;
 
 import fitnesses.*;
+import java.util.random.RandomGenerator;
 import models.*;
 import strategies.*;
 
 public class GAConfig {
 
-    public GAConfig(String problem, String configFile) {
+    public GAConfig(String generalConfigFile, String problemConfigFile) {
 
     }
 
     public FitnessEvaluator fitnessEvaluator() {
         return null;
     }
-    public Elitism elitism() {
+    public ElitismStrategy elitismStrategy() {
         return null;
     }
     public SelectionStrategy selectionStrategy() {
@@ -54,5 +55,8 @@ public class GAConfig {
     }
     public int randomSeed() {
         return 0;
+    }
+    public RandomGenerator randomGenerator() {
+        return null;
     }
 }

@@ -9,7 +9,7 @@ public class EvolutionReporter {
     public void record(Population population, int generation) {
 
     }
-    public void exportStatistics() {
+    public void exportStatistics(String destination) {
 
     }
     // public void exportGenerations

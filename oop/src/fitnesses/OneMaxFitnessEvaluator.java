@@ -1,6 +1,6 @@
 package fitnesses;
 
-import java.util.BitSet;
+import models.Chromosome;
 
 public class OneMaxFitnessEvaluator implements FitnessEvaluator {
     private int length;
@@ -10,7 +10,7 @@ public class OneMaxFitnessEvaluator implements FitnessEvaluator {
     }
 
     @Override
-    public double evaluate(BitSet chromosome) {
+    public double evaluate(Chromosome chromosome) {
 
         /* implementations */
 

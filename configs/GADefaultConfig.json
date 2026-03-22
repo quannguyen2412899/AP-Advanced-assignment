@@ -6,6 +6,5 @@
     "mutationRate": 0.01,
     "elitismCount": 2,
     "maxGenerations": 300,
-    "KnapsackCapacityOverTotal": 0.4,
     "randomSeed": 42
 }

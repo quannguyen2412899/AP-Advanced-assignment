@@ -1,33 +1,33 @@
 import core.*;
 import models.Population;
-import utils.RandomUtil;
 
 /**
- * Usage: java Main --config <config.json> --problem <'onemax'|'knapsack'
- * Example: java Main --config config.json --problem 'onemax'
+ * Usage: java Main --config <json config file> --problem <json problem file> --out <output directory>
+ * Example: java Main --config config.json --problem onemax.json --out reports
  **/
 public class Main {
     public static void main(String[] args) {
 
         /* get configs from args - incomplete implementation */
-        String generalConfig = "";
-        String problemConfig = "";        
+        String generalConfigFile = "";
+        String problemConfigFile = "";
+        String outputDirectory = "";
 
         /** Initialization  **/
-        GAConfig config = new GAConfig(generalConfig, problemConfig);
+        GAConfig config = new GAConfig(generalConfigFile, problemConfigFile);
         GeneticAlgorithm ga = new GeneticAlgorithm(config.fitnessEvaluator(),
-                                                    config.elitism(),
+                                                    config.elitismStrategy(),
                                                     config.selectionStrategy(),
                                                     config.crossoverStrategy(),
-                                                    config.mutationStrategy());
+                                                    config.mutationStrategy(),
+                                                    config.randomGenerator());
         EvolutionReporter reporter = new EvolutionReporter();
-        RandomUtil.init(config.randomSeed());
 
         /** Execution **/
         Population initialPopulation = config.generateRandomPopulation();
         ga.run(initialPopulation, reporter);
 
         /** Export results **/
-        reporter.exportStatistics();
+        reporter.exportStatistics(outputDirectory);
     }
 }

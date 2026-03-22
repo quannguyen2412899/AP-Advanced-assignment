@@ -1,2 +1,4 @@
-- add output location to main command
-- add ouput location to EvolutionReporter.exportStatistics()
+- ~~add output location to main command~~
+- ~~add ouput location to EvolutionReporter.exportStatistics()~~
+- ~~add random generator to ga, remove randomutil~~
+- ~~split json configs~~
