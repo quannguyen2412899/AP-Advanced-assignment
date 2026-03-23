@@ -30,7 +30,7 @@ public class Main {
                                                         config.selectionStrategy(),
                                                         config.crossoverStrategy(),
                                                         config.mutationStrategy(),
-                                                        config.randomGenerator());
+                                                        config.randomUtil());
             EvolutionReporter reporter = new EvolutionReporter();
 
             /** Execution **/

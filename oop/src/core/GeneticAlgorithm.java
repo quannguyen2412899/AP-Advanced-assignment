@@ -1,9 +1,9 @@
 package core;
 
 import fitnesses.FitnessEvaluator;
-import java.util.random.RandomGenerator;
 import models.Population;
 import strategies.*;
+import utils.RandomUtil;
 
 public class GeneticAlgorithm {
     private EvolutionStep oneStepEvolution;
@@ -14,7 +14,7 @@ public class GeneticAlgorithm {
                             SelectionStrategy ss,
                             CrossoverStrategy cs,
                             MutationStrategy ms,
-                            RandomGenerator random) {
+                            RandomUtil random) {
         /* implements */
     }
 

@@ -1,9 +1,9 @@
 package core;
 
 import fitnesses.*;
-import java.util.random.RandomGenerator;
 import models.*;
 import strategies.*;
+import utils.RandomUtil;
 
 public class GAConfig {
 
@@ -56,7 +56,7 @@ public class GAConfig {
     public int randomSeed() {
         return 0;
     }
-    public RandomGenerator randomGenerator() {
+    public RandomUtil randomUtil() {
         return null;
     }
 }
