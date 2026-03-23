@@ -24,8 +24,8 @@ public class Main {
 
         try {
             /** Initialization  **/
-            GAConfig config = new GAConfig(generalConfigFile, problemConfigFile);
-            GeneticAlgorithm ga = new GeneticAlgorithm(config.fitnessEvaluator(),
+            GAConfig config = new GAConfig(generalConfigFile);
+            GeneticAlgorithm ga = new GeneticAlgorithm(config.fitnessEvaluator(problemConfigFile),
                                                         config.elitismStrategy(),
                                                         config.selectionStrategy(),
                                                         config.crossoverStrategy(),

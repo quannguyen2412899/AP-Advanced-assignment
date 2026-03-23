@@ -7,11 +7,11 @@ import strategies.*;
 
 public class GAConfig {
 
-    public GAConfig(String generalConfigFile, String problemConfigFile) {
+    public GAConfig(String generalConfigFile) {
 
     }
 
-    public FitnessEvaluator fitnessEvaluator() {
+    public FitnessEvaluator fitnessEvaluator(String problemConfigFile) {
         return null;
     }
     public ElitismStrategy elitismStrategy() {
