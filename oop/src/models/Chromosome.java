@@ -7,28 +7,26 @@ public class Chromosome {
     private double fitness;
 
     public Chromosome(BitSet chromosome, int length, double fitness) {
-        /* implementations */
+        if(chromosome.size() < length) throw new IllegalArgumentException("Chromosome constructor: BitSet size " + chromosome.size() + " < required length " + length);
+        this.chromosome = (BitSet) chromosome.clone();
+        this.length = length;
+        this.fitness = fitness;
     }
 
     public boolean getBit(int index) {
-
-        /* implementations */
-
-        return true;
+        if(index < 0 || index >= length) throw new IndexOutOfBoundsException("getBit: index " + index + " out of bounds [0, " + length + ")");
+        return chromosome.get(index);
     }
 
     public BitSet getBitString() {
-        /* implements */
-        return null;
+        return (BitSet) chromosome.clone();
     }
 
     public double getFitness() {
-        /* implements */
-        return 0.0;
+        return fitness;
     }
 
     public int length() {
-        /* implements */
-        return 0;
+        return length;
     }
 }

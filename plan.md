@@ -2,3 +2,4 @@
 - ~~add ouput location to EvolutionReporter.exportStatistics()~~
 - ~~add random generator to ga, remove randomutil~~
 - ~~split json configs~~
+- fix inefficiency of Population::getPopulation and Chromosome::getChromosome (remove both methods or add more features?)
