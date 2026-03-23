@@ -1,7 +1,7 @@
 package fitnesses;
 
-import models.Chromosome;
+import java.util.BitSet;
 
 public interface FitnessEvaluator {
-    public double evaluate(Chromosome chromosome);
+    public double evaluate(BitSet chromosome);
 }
