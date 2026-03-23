@@ -1,0 +1,28 @@
+{
+    "populationSize": 100,
+    "chromosomeLength": 100,
+    "maxGenerations": 300,
+    "randomSeed": 42,
+    "selection": {
+        "strategy": "tournamentSelection",
+        "size": 3
+    },
+    "crossover": {
+        "strategy": "onePointCrossover",
+        "rate": 0.9
+    },
+    "mutation": {
+        "strategy": "bitFlipMutation",
+        "ratePerBit": 0.01
+    },
+    "elitismStrategy": {
+        "strategy": "simpleElitism",
+        "count": 2
+    },
+    "problem": {
+        "name": "knapsack",
+        "weights": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        "values": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+        "capacityOverTotal": 0.4
+    }
+}

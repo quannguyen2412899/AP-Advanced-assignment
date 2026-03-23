@@ -42,3 +42,6 @@ Thumbs.db
 .vscode
 LTNC_MR_Assignment.pdf
 sandbox
+
+# Exceptions #
+!oop/lib/gson-2.13.2.jar
