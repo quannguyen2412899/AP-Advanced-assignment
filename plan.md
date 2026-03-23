@@ -4,3 +4,4 @@
 - ~~split json configs~~
 - fix inefficiency of Population::getPopulation and Chromosome::getChromosome (remove both methods or add more features?)
 - ~~add random generator directly to strategies remove from ga~~ (this is undone)
+- account for termination (max generations, max fitness, ...) of GA in run() or include as a field
