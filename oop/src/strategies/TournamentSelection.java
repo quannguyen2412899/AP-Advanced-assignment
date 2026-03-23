@@ -1,6 +1,7 @@
 package strategies;
 
 import models.*;
+import utils.RandomUtil;
 
 public class TournamentSelection implements SelectionStrategy {
     private int tournamentSize;
@@ -13,7 +14,7 @@ public class TournamentSelection implements SelectionStrategy {
     }
     
     @Override
-    public Chromosome select(Population population) {
+    public Chromosome select(Population population, RandomUtil random) {
 
         /* implemntations */
         

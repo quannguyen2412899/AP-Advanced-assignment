@@ -35,7 +35,8 @@ class EvolutionStep {
                         ElitismStrategy es,
                         SelectionStrategy ss,
                         CrossoverStrategy cs,
-                        MutationStrategy ms) {
+                        MutationStrategy ms,
+                        RandomUtil random) {
     
     }
     public Population evolve(Population population) {

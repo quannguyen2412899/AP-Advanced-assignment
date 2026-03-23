@@ -1,6 +1,7 @@
 package strategies;
 
 import models.Chromosome;
+import utils.RandomUtil;
 
 public class BitFlipMutation implements MutationStrategy {
     private double ratePerBit;
@@ -14,7 +15,7 @@ public class BitFlipMutation implements MutationStrategy {
     }
 
     @Override
-    public Chromosome mutate(Chromosome chromosome) {
+    public Chromosome mutate(Chromosome chromosome, RandomUtil random) {
         /* implementations */
         return null;
     }

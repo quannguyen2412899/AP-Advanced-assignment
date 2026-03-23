@@ -1,6 +1,7 @@
 package strategies;
 
 import models.Chromosome;
+import utils.RandomUtil;
 
 public class OnePointCrossover implements CrossoverStrategy {
     private double crossoverRate;
@@ -14,7 +15,7 @@ public class OnePointCrossover implements CrossoverStrategy {
     }
 
     @Override
-    public Chromosome[] crossover(Chromosome p1, Chromosome p2) {
+    public Chromosome[] crossover(Chromosome p1, Chromosome p2, RandomUtil random) {
 
         /* implementations */
         

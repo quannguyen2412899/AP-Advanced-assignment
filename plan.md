@@ -3,4 +3,4 @@
 - ~~add random generator to ga, remove randomutil~~
 - ~~split json configs~~
 - fix inefficiency of Population::getPopulation and Chromosome::getChromosome (remove both methods or add more features?)
-- add random generator directly to strategies remove from ga
+- ~~add random generator directly to strategies remove from ga~~ (this is undone)
