@@ -1,6 +1,6 @@
 package strategies;
 
-import models.Chromosome;
+import java.util.BitSet;
 import utils.RandomUtil;
 
 public class BitFlipMutation implements MutationStrategy {
@@ -15,7 +15,7 @@ public class BitFlipMutation implements MutationStrategy {
     }
 
     @Override
-    public Chromosome mutate(Chromosome chromosome, RandomUtil random) {
+    public BitSet mutate(BitSet chromosome, RandomUtil random) {
         /* implementations */
         return null;
     }

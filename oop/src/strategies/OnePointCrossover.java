@@ -1,6 +1,6 @@
 package strategies;
 
-import models.Chromosome;
+import java.util.BitSet;
 import utils.RandomUtil;
 
 public class OnePointCrossover implements CrossoverStrategy {
@@ -15,7 +15,7 @@ public class OnePointCrossover implements CrossoverStrategy {
     }
 
     @Override
-    public Chromosome[] crossover(Chromosome p1, Chromosome p2, RandomUtil random) {
+    public BitSet[] crossover(BitSet parent1, BitSet parent2, RandomUtil random) {
 
         /* implementations */
         

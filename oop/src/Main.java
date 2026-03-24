@@ -25,6 +25,7 @@ public class Main {
         try {
             /** Initialization  **/
             GAConfig config = new GAConfig(generalConfigFile);
+            int maxGenerations = config.maxGenerations();
             GeneticAlgorithm ga = new GeneticAlgorithm(config.fitnessEvaluator(),
                                                         config.elitismStrategy(),
                                                         config.selectionStrategy(),
@@ -35,7 +36,7 @@ public class Main {
 
             /** Execution **/
             Population initialPopulation = config.generateRandomPopulation();
-            ga.run(initialPopulation, reporter);
+            ga.run(initialPopulation, reporter, maxGenerations);
 
             /** Results exportation **/
             reporter.exportStatistics(outputDirectory);

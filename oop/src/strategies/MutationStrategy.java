@@ -1,8 +1,8 @@
 package strategies;
 
-import models.Chromosome;
+import java.util.BitSet;
 import utils.RandomUtil;
 
 public interface  MutationStrategy {
-    Chromosome mutate(Chromosome chromosome, RandomUtil random);
+    BitSet mutate(BitSet chromosome, RandomUtil random);
 }

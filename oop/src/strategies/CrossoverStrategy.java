@@ -1,8 +1,8 @@
 package strategies;
 
-import models.Chromosome;
+import java.util.BitSet;
 import utils.RandomUtil;
 
 public interface CrossoverStrategy {
-    Chromosome[] crossover(Chromosome p1, Chromosome p2, RandomUtil random);
+    BitSet[] crossover(BitSet parent1, BitSet parent2, RandomUtil random);
 }
