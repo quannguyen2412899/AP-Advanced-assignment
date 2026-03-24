@@ -4,7 +4,7 @@ public class Population {
     private Chromosome[] population;
     private int size;
 
-    Population(Chromosome[] population, int size) {
+    public Population(Chromosome[] population, int size) {
         if(population.length < size) throw new IllegalArgumentException("Population constructor: array size " + population.length + " < required size " + size);
         this.population = new Chromosome[size];
         System.arraycopy(population, 0, this.population, 0, size);

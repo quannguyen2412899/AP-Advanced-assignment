@@ -13,6 +13,12 @@ public class Chromosome {
         this.fitness = fitness;
     }
 
+    public Chromosome(Chromosome other) {
+        this.chromosome = (BitSet) other.chromosome.clone();
+        this.length = other.length;
+        this.fitness = other.fitness;
+    }
+
     public boolean getBit(int index) {
         if(index < 0 || index >= length) throw new IndexOutOfBoundsException("getBit: index " + index + " out of bounds [0, " + length + ")");
         return chromosome.get(index);
