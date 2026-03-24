@@ -4,5 +4,5 @@ import java.util.BitSet;
 import utils.RandomUtil;
 
 public interface  MutationStrategy {
-    BitSet mutate(BitSet chromosome, RandomUtil random);
+    BitSet mutate(BitSet chromosome, int length, RandomUtil random);
 }

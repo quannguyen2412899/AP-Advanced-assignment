@@ -88,13 +88,13 @@ class EvolutionStep {
             // --------- Crossover ---------
             BitSet parentGenes1 = parent1.getBitString();
             BitSet parentGenes2 = parent2.getBitString();
-            BitSet[] childrenGenes = crossoverStrategy.crossover(parentGenes1, parentGenes2, randomness);
+            BitSet[] childrenGenes = crossoverStrategy.crossover(parentGenes1, parentGenes2, chromosomeLength, randomness);
             BitSet childGenes1 = childrenGenes[0];
             BitSet childGenes2 = childrenGenes[1];
 
             // --------- Mutation ---------
-            childGenes1 = mutationStrategy.mutate(childGenes1, randomness);
-            childGenes2 = mutationStrategy.mutate(childGenes2, randomness);
+            childGenes1 = mutationStrategy.mutate(childGenes1, chromosomeLength, randomness);
+            childGenes2 = mutationStrategy.mutate(childGenes2, chromosomeLength, randomness);
 
             // --------- Fitness evaluation  ---------
             Chromosome child1 = new Chromosome(childGenes1, chromosomeLength, fitnessEvaluator.evaluate(childGenes1));
