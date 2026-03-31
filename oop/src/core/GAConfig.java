@@ -1,5 +1,6 @@
 package core;
 
+import java.util.BitSet;
 import fitnesses.*;
 import models.*;
 import strategies.*;
@@ -125,7 +126,17 @@ public class GAConfig {
         return new RandomUtil(randomSeed);
     }
     public Population generateRandomPopulation() {
-        return null;
+        FitnessEvaluator fitness = fitnessEvaluator();
+        RandomUtil random = randomUtil();
+        Chromosome[] _population = new Chromosome[populationSize];
+        for (int i = 0; i < _population.length; i++) {
+            BitSet _chromosome = new BitSet(chromosomeLength);
+            for (int j = 0; j < chromosomeLength; j++) {
+                _chromosome.set(j, random.nextBernoulli(0.5));
+            }
+            _population[i] = new Chromosome(_chromosome, chromosomeLength, fitness.evaluate(_chromosome));
+        }
+        return new Population(_population, populationSize);
     }
     public int populationSize() {
         return populationSize;
