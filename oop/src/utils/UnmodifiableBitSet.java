@@ -1,17 +1,22 @@
-
+package utils;
 import java.util.BitSet;
 
 public class UnmodifiableBitSet {
     final private BitSet bitSet;
+    int size;
 
-    public UnmodifiableBitSet(BitSet bitSet) {
-        this.bitSet = (BitSet) bitSet.clone();
+    public UnmodifiableBitSet(BitSet bitSet, int size) {
+        if(bitSet.length() > size) throw new IllegalArgumentException("UnmodifiableBitSet construction: BitSet length exceeds specified size");
+        this.bitSet = bitSet;
+        this.size = size;
     }
     public UnmodifiableBitSet(UnmodifiableBitSet other) {
-        this.bitSet = (BitSet) other.bitSet.clone();
+        this.bitSet = other.bitSet;
+        this.size = other.size;
     }
 
     public boolean get(int index) {
+        if(index >= size) throw new IndexOutOfBoundsException("UnmodifiableBitSet::get() index out of bounds");
         return bitSet.get(index);
     }
     public int cardinality() {
@@ -19,5 +24,8 @@ public class UnmodifiableBitSet {
     }
     public BitSet toBitSet() {
         return (BitSet) bitSet.clone();
+    }
+    public int size() {
+        return size;
     }
 }
