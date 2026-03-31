@@ -7,7 +7,7 @@ public class Population {
     public Population(Chromosome[] population, int size) {
         if(population.length < size) throw new IllegalArgumentException("Population constructor: array size " + population.length + " < required size " + size);
         this.population = new Chromosome[size];
-        System.arraycopy(population, 0, this.population, 0, size);
+        System.arraycopy(population, 0, this.population, 0, size); // shallow copy !
         this.size = size;
     }
 
@@ -17,11 +17,9 @@ public class Population {
     }
 
     public Chromosome[] getPopulation() {
-        Chromosome[] clonePopulation = new Chromosome[size];
-        for (int i = 0; i < size; i++) {
-            clonePopulation[i] = new Chromosome(population[i].getBitString(), population[i].length(), population[i].getFitness());
-        }
-        return clonePopulation;
+        Chromosome[] copy = new Chromosome[size];
+        System.arraycopy(population, 0, copy, 0, size);
+        return copy;
     }
 
     public int size() {

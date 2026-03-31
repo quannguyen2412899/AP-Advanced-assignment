@@ -7,4 +7,4 @@
 - account for termination (max generations, max fitness, ...) of GA in run() or include as a field
 - ~~implement unmodifiable bitset for better Chromosome::getChromosome~~
 - mutate(BitSet chromosome, int length, RandomUtil random) (passing length to the operator is weird), ...
-- search and fix problematic shallow copies.
+- ~~search and fix problematic shallow copies.~~ => its ok
