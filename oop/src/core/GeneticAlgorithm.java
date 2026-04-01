@@ -2,6 +2,7 @@ package core;
 
 import fitnesses.FitnessEvaluator;
 import models.*;
+import reporter.*;
 import strategies.*;
 import utils.RandomUtil;
 
@@ -17,8 +18,9 @@ public class GeneticAlgorithm {
         this.oneStepEvolution = new EvolutionStep(fe, es, ss, cs, ms, random);
     }
 
-    // Return the best Chromosome after evolution
-    public Chromosome run(Population initialPopulation, EvolutionReporter analyzer, int maxGenerations) {
+    // Return the best Chromosome found after evolution
+    // Currently only return the last generation best chromosome, not the best among generations
+    public Chromosome run(Population initialPopulation, EvolutionReporter reporter, int maxGenerations) {
         if (maxGenerations <= 0) throw new IllegalArgumentException("maxGenerations must be > 0");
         
         Population currentPopulation = initialPopulation;
@@ -32,7 +34,7 @@ public class GeneticAlgorithm {
                 throw new IllegalStateException("Error during generation " + generation + ": " + e.getMessage(), e);
             }
             // --------- Analysis ---------
-            analyzer.record(currentPopulation, generation);
+            reporter.record(GenerationStatistics.statisticsOf(currentPopulation, generation));
         }
 
         ElitismStrategy mostEliteSelector = new SimpleElitism(1);
