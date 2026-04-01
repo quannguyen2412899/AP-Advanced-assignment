@@ -2,6 +2,8 @@ import core.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import models.Population;
+import reporter.*;
+import setup.*;
 
 /**
  * Usage: java Main --config <json config file> --problem <json problem file> --out <output directory>
@@ -19,12 +21,12 @@ public class Main {
         Parser p = new Parser(args);
         if(!p.isValid) errorExit("Invalid argument.");
         String generalConfigFile = p.generalConfigFile;
-        String problemConfigFile = p.problemConfigFile;
+        // String problemConfigFile = p.problemConfigFile;
         String outputDirectory = p.outputDirectory;
 
         try {
             /** Initialization  **/
-            GAConfig config = new GAConfig(generalConfigFile);
+            GAConfig config = GAConfigLoader.load(generalConfigFile);
             int maxGenerations = config.maxGenerations();
             GeneticAlgorithm ga = new GeneticAlgorithm(config.fitnessEvaluator(),
                                                         config.elitismStrategy(),
