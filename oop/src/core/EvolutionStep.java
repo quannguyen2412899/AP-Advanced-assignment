@@ -57,8 +57,8 @@ public class EvolutionStep {
             Chromosome parent2 = selectionStrategy.select(population, randomness);
 
             // --------- Crossover ---------
-            BitSet parentGenes1 = parent1.getBitString().toBitSet();
-            BitSet parentGenes2 = parent2.getBitString().toBitSet();
+            BitSet parentGenes1 = parent1.getBitString();
+            BitSet parentGenes2 = parent2.getBitString();
             BitSet[] childrenGenes = crossoverStrategy.crossover(parentGenes1, parentGenes2, chromosomeLength, randomness);
             BitSet childGenes1 = childrenGenes[0];
             BitSet childGenes2 = childrenGenes[1];

@@ -1,6 +1,7 @@
 package utils;
 import java.util.BitSet;
 
+// unused
 public class UnmodifiableBitSet {
     final private BitSet bitSet;
     int size;

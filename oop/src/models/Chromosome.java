@@ -1,6 +1,5 @@
 package models;
 import java.util.BitSet;
-import utils.UnmodifiableBitSet;
 
 public class Chromosome {
     private BitSet chromosome;
@@ -25,8 +24,8 @@ public class Chromosome {
         return chromosome.get(index);
     }
 
-    public UnmodifiableBitSet getBitString() {
-        return new UnmodifiableBitSet(chromosome, length);
+    public BitSet getBitString() {
+        return (BitSet) chromosome.clone();
     }
 
     public double getFitness() {
