@@ -1,19 +1,22 @@
 import core.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import models.Chromosome;
 import models.Population;
 import reporter.*;
 import setup.*;
 
 /**
- * Usage: java Main --config <json config file> --out <output directory>
- * Example: java Main --config config.json --out reports
+ * Compile: javac -d bin -cp "lib/*" src/models/*.java src/utils/*.java src/fitnesses/*.java src/strategies/*.java src/core/*.java src/reporter/*.java src/setup/*.java src/Main.java
+ * Usage: java Main --config <json config file> --out <output file path>
+ * Example (from root): java -cp "oop/bin:oop/lib/*" Main --config config.json --out reports/output.json
  * There's no default argument, user must declare all flags.
- * <output directory>'s existence is user's responsibility, the program doesn't automatically create one if not found.
- **/
+ * The parent directories for the output file will be automatically created if they do not exist.
+ * Paths are relative to the current working directory.
+ */
 public class Main {
 
-    private static final String USAGE_MESSAGE = "Usage: java Main --config <json config file> --out <output directory>";
+    private static final String USAGE_MESSAGE = "Usage: java Main --config <json config file> --out <output file path>";
 
     public static void main(String[] args) {
         
@@ -21,10 +24,13 @@ public class Main {
         Parser p = new Parser(args);
         if(!p.isValid) errorExit("Invalid argument.");
         String generalConfigFile = p.generalConfigFile;
-        // String problemConfigFile = p.problemConfigFile;
-        String outputDirectory = p.outputDirectory;
+        String outputFile = p.outputFile;
 
         try {
+            /** Create parent directories for output file if they don't exist **/
+            java.nio.file.Path outputPath = Paths.get(outputFile);
+            Files.createDirectories(outputPath.getParent());
+            
             /** Initialization  **/
             GAConfig config = GAConfigLoader.load(generalConfigFile);
             int maxGenerations = config.maxGenerations();
@@ -38,10 +44,16 @@ public class Main {
 
             /** Execution **/
             Population initialPopulation = config.generateRandomPopulation();
-            ga.run(initialPopulation, reporter, maxGenerations);
+            
+            long startTime = System.currentTimeMillis();
+            Chromosome finalBestChromosome = ga.run(initialPopulation, reporter, maxGenerations);
+            long endTime = System.currentTimeMillis();
 
             /** Results exportation **/
-            reporter.exportStatistics(outputDirectory);
+            reporter.exportStatistics(outputFile);
+            System.out.println("Problem: " + Paths.get(generalConfigFile).toAbsolutePath());
+            System.out.println("Final best fitness: " + finalBestChromosome.getFitness());
+            System.out.println("Execution time: " + (endTime - startTime) + "ms\n");
         } 
         catch(Exception e) {
             errorExit(e.getMessage());
@@ -50,16 +62,15 @@ public class Main {
 
     /** Argument parser helper class **/
     private static class Parser {
-        private String generalConfigFile, outputDirectory;
+        private String generalConfigFile, outputFile;
         private boolean isValid;
         public Parser(String[] args) {
             isValid = true;
-            if(args.length != 6) isValid = false;
+            if(args.length != 4) isValid = false;
             for (int i = 0; i < args.length - 1 && isValid; i += 2) {
                 switch (args[i]) {
                     case "--config" -> generalConfigFile = args[i+1];
-                    // case "--problem" -> problemConfigFile = args[i+1];
-                    case "--out" -> outputDirectory = args[i+1];
+                    case "--out" -> outputFile = args[i+1];
                     default -> isValid = false;
                 }
             }
@@ -69,13 +80,10 @@ public class Main {
         private void fileExistenceCheck() {
             if (!isValid) return;
             if (!Files.exists(Paths.get(generalConfigFile))) isValid = false;
-            // if (!Files.exists(Paths.get(problemConfigFile))) isValid = false;
-            if (!Files.exists(Paths.get(outputDirectory))) isValid = false;
         }
         private void fileTypeCheck() {
             if (!isValid) return;
             if (!generalConfigFile.endsWith(".json")) isValid = false;
-            // if (!problemConfigFile.endsWith(".json")) isValid = false;
         }
     }
 

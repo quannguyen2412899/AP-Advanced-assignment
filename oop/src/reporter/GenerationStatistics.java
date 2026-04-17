@@ -46,7 +46,8 @@ public class GenerationStatistics {
         boolean[] bestSolution = bestChromosome.getBitString();
         double averageFitness = totalFitness / populationSize;
         double averageSquaredFitness = totalSquaredFitness / populationSize;
-        double variance = averageSquaredFitness - (averageFitness * averageFitness);
+        double variance = populationSize == 1 ? 0 : (averageSquaredFitness - averageFitness * averageFitness)
+                                                    * populationSize / (populationSize - 1);
         double standardDeviation = Math.sqrt(Math.max(0, variance));
 
         return new GenerationStatistics(generation,
