@@ -1,7 +1,5 @@
 package fitnesses;
 
-import java.util.BitSet;
-
 public class OneMaxFitnessEvaluator implements FitnessEvaluator {
     private int length;
 
@@ -10,8 +8,14 @@ public class OneMaxFitnessEvaluator implements FitnessEvaluator {
     }
 
     @Override
-    public double evaluate(BitSet chromosome) {
-        if(chromosome.length() > length) throw new IllegalArgumentException("OneMaxFitnessEvaluator::evaluate(): BitSet length " + chromosome.length() + " > expected length " + length);
-        return chromosome.cardinality();
+    public double evaluate(boolean[] chromosome) {
+        if (chromosome == null) throw new IllegalArgumentException("OneMaxFitnessEvaluator.evaluate: chromosome is null");
+        if (chromosome.length > length) throw new IllegalArgumentException("OneMaxFitnessEvaluator.evaluate: chromosome length " + chromosome.length + " > expected length " + length);
+        
+        int count = 0;
+        for (boolean bit : chromosome) {
+            if (bit) count++;
+        }
+        return count;
     }
 }

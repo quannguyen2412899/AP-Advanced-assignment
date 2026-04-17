@@ -6,17 +6,16 @@ public class Chromosome {
     private int length;
     private double fitness;
 
-    public Chromosome(BitSet chromosome, int length, double fitness) {
-        if(chromosome.size() < length) throw new IllegalArgumentException("Chromosome constructor: BitSet size " + chromosome.size() + " < required length " + length);
-        this.chromosome = (BitSet) chromosome.clone();
-        this.length = length;
+    public Chromosome(boolean[] chromosome, double fitness) {
+        if (chromosome == null) throw new IllegalArgumentException("Chromosome constructor: chromosome is null");
+        this.length = chromosome.length;
+        this.chromosome = new BitSet(length);
+        for (int i = 0; i < length; i++) {
+            if (chromosome[i]) {
+                this.chromosome.set(i);
+            }
+        }
         this.fitness = fitness;
-    }
-
-    public Chromosome(Chromosome other) {
-        this.chromosome = (BitSet) other.chromosome.clone();
-        this.length = other.length;
-        this.fitness = other.fitness;
     }
 
     public boolean getBit(int index) {
@@ -24,8 +23,12 @@ public class Chromosome {
         return chromosome.get(index);
     }
 
-    public BitSet getBitString() {
-        return (BitSet) chromosome.clone();
+    public boolean[] getBitString() {
+        boolean[] bits = new boolean[length];
+        for (int i = 0; i < length; i++) {
+            bits[i] = chromosome.get(i);
+        }
+        return bits;
     }
 
     public double getFitness() {

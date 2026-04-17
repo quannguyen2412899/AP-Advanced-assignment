@@ -1,7 +1,5 @@
 package fitnesses;
 
-import java.util.BitSet;
-
 public class KnapsackFitnessEvaluator implements FitnessEvaluator {
     private int length;
     private double[] weights;
@@ -22,13 +20,13 @@ public class KnapsackFitnessEvaluator implements FitnessEvaluator {
     }
 
     @Override
-    public double evaluate(BitSet chromosome) {
-        if(chromosome.length() > length) throw new IllegalArgumentException("KnapsackFitnessEvaluator::evaluate(): BitSet length " + chromosome.length() + " > expected length " + length);
+    public double evaluate(boolean[] chromosome) {
+        if(chromosome.length > length) throw new IllegalArgumentException("KnapsackFitnessEvaluator::evaluate(): Chromosome length " + chromosome.length + " > expected length " + length);
         double totalWeight = 0;
         double totalValue = 0;
         for(int i = 0; i < length; i++) {
-            totalWeight += (chromosome.get(i) ? weights[i] : 0.0);
-            totalValue += (chromosome.get(i) ? values[i] : 0.0);
+            totalWeight += (chromosome[i] ? weights[i] : 0.0);
+            totalValue += (chromosome[i] ? values[i] : 0.0);
         }
         return (totalWeight > capacity) ? 0 : totalValue;
     }

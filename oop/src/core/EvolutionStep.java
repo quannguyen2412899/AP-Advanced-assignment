@@ -3,7 +3,6 @@ package core;
 import fitnesses.FitnessEvaluator;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.BitSet;
 import java.util.List;
 import models.*;
 import strategies.CrossoverStrategy;
@@ -57,19 +56,19 @@ public class EvolutionStep {
             Chromosome parent2 = selectionStrategy.select(population, randomness);
 
             // --------- Crossover ---------
-            BitSet parentGenes1 = parent1.getBitString();
-            BitSet parentGenes2 = parent2.getBitString();
-            BitSet[] childrenGenes = crossoverStrategy.crossover(parentGenes1, parentGenes2, chromosomeLength, randomness);
-            BitSet childGenes1 = childrenGenes[0];
-            BitSet childGenes2 = childrenGenes[1];
+            boolean[] parentGenes1 = parent1.getBitString();
+            boolean[] parentGenes2 = parent2.getBitString();
+            boolean[][] childrenGenes = crossoverStrategy.crossover(parentGenes1, parentGenes2, randomness);
+            boolean[] childGenes1 = childrenGenes[0];
+            boolean[] childGenes2 = childrenGenes[1];
 
             // --------- Mutation ---------
-            childGenes1 = mutationStrategy.mutate(childGenes1, chromosomeLength, randomness);
-            childGenes2 = mutationStrategy.mutate(childGenes2, chromosomeLength, randomness);
+            childGenes1 = mutationStrategy.mutate(childGenes1, randomness);
+            childGenes2 = mutationStrategy.mutate(childGenes2, randomness);
 
             // --------- Fitness evaluation  ---------
-            Chromosome child1 = new Chromosome(childGenes1, chromosomeLength, fitnessEvaluator.evaluate(childGenes1));
-            Chromosome child2 = new Chromosome(childGenes2, chromosomeLength, fitnessEvaluator.evaluate(childGenes2));
+            Chromosome child1 = new Chromosome(childGenes1, fitnessEvaluator.evaluate(childGenes1));
+            Chromosome child2 = new Chromosome(childGenes2, fitnessEvaluator.evaluate(childGenes2));
             
             // --------- Insertion ---------
             if(newPopulationChromosomes.size() < populationSize) newPopulationChromosomes.add(child1);

@@ -1,6 +1,5 @@
 package strategies;
 
-import java.util.BitSet;
 import utils.RandomUtil;
 
 public class BitFlipMutation implements MutationStrategy {
@@ -16,16 +15,19 @@ public class BitFlipMutation implements MutationStrategy {
     }
 
     @Override
-    public BitSet mutate(BitSet chromosome, int length, RandomUtil random) {
+    public boolean[] mutate(boolean[] chromosome, RandomUtil random) {
         if (chromosome == null) throw new IllegalArgumentException("BitFlipMutation.mutate: chromosome is null");
-        if (length < chromosome.size()) throw new IllegalArgumentException("BitFlipMutation.mutate: length " + length + " must be >= chromosome size " + chromosome.size());
         
-        BitSet mutatedChromosome = (BitSet) chromosome.clone();
-        for(int i = 0; i < length; i++) {
+        int length = chromosome.length;
+        boolean[] mutated = new boolean[length];
+        for (int i = 0; i < length; i++) {
+            boolean bit = chromosome[i];
             if (random.nextBernoulli(ratePerBit)) {
-                mutatedChromosome.flip(i);
+                mutated[i] = !bit;
+            } else {
+                mutated[i] = bit;
             }
         }
-        return mutatedChromosome;
+        return mutated;
     }
 }

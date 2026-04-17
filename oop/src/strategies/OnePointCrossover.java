@@ -1,6 +1,5 @@
 package strategies;
 
-import java.util.BitSet;
 import utils.RandomUtil;
 
 public class OnePointCrossover implements CrossoverStrategy {
@@ -16,24 +15,27 @@ public class OnePointCrossover implements CrossoverStrategy {
     }
 
     @Override
-    public BitSet[] crossover(BitSet parent1, BitSet parent2, int length, RandomUtil random) {
+    public boolean[][] crossover(boolean[] parent1, boolean[] parent2, RandomUtil random) {
         if (parent1 == null) throw new IllegalArgumentException("OnePointCrossover.crossover: parent1 is null");
         if (parent2 == null) throw new IllegalArgumentException("OnePointCrossover.crossover: parent2 is null");
-        if (length < parent1.size()) throw new IllegalArgumentException("OnePointCrossover.crossover: length " + length + " must be >= parent1 size " + parent1.size());
-        if (length < parent2.size()) throw new IllegalArgumentException("OnePointCrossover.crossover: length " + length + " must be >= parent2 size " + parent2.size());
+        if (parent1.length != parent2.length) throw new IllegalArgumentException("OnePointCrossover.crossover: parents must have same length");
         
-        BitSet[] offspring = new BitSet[2];
-        offspring[0] = (BitSet) parent1.clone();
-        offspring[1] = (BitSet) parent2.clone();
+        int length = parent1.length;
+        boolean[][] offspring = new boolean[2][length];
         
+        // Copy parents to offspring
+        System.arraycopy(parent1, 0, offspring[0], 0, length);
+        System.arraycopy(parent2, 0, offspring[1], 0, length);
+        
+        // Perform crossover with probability
         if (random.nextBernoulli(crossoverRate)) {
             int swapIndex = random.nextInt(1, length);
             
+            // Swap bits from swapIndex to end
             for (int i = swapIndex; i < length; i++) {
-                boolean bit0 = offspring[0].get(i);
-                boolean bit1 = offspring[1].get(i);
-                offspring[0].set(i, bit1);
-                offspring[1].set(i, bit0);
+                boolean temp = offspring[0][i];
+                offspring[0][i] = offspring[1][i];
+                offspring[1][i] = temp;
             }
         }
         

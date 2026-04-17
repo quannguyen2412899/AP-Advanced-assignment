@@ -1,7 +1,6 @@
 package setup;
 
 import fitnesses.*;
-import java.util.BitSet;
 import models.*;
 import strategies.*;
 import utils.RandomUtil;
@@ -74,11 +73,11 @@ public class GAConfig {
         RandomUtil random = randomUtil();
         Chromosome[] _population = new Chromosome[populationSize];
         for (int i = 0; i < _population.length; i++) {
-            BitSet _chromosome = new BitSet(chromosomeLength);
+            boolean[] _chromosome = new boolean[chromosomeLength];
             for (int j = 0; j < chromosomeLength; j++) {
-                _chromosome.set(j, random.nextBernoulli(0.5));
+                _chromosome[j] = random.nextBernoulli(0.5);
             }
-            _population[i] = new Chromosome(_chromosome, chromosomeLength, fitness.evaluate(_chromosome));
+            _population[i] = new Chromosome(_chromosome, fitness.evaluate(_chromosome));
         }
         return new Population(_population, populationSize);
     }

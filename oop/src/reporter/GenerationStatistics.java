@@ -43,7 +43,7 @@ public class GenerationStatistics {
                 bestChromosome = c;
             }
         }
-        boolean[] bestSolution = chromosomeToBooleanArray(bestChromosome);
+        boolean[] bestSolution = bestChromosome.getBitString();
         double averageFitness = totalFitness / populationSize;
         double averageSquaredFitness = totalSquaredFitness / populationSize;
         double variance = averageSquaredFitness - (averageFitness * averageFitness);
@@ -57,11 +57,11 @@ public class GenerationStatistics {
                                         bestSolution);
     }
 
-    public static boolean[] chromosomeToBooleanArray(Chromosome c) {
-        boolean[] res = new boolean[c.length()];
-        for(int i = 0;i  < res.length; i++) {
-            res[i] = c.getBit(i);
-        }
-        return res;
-    }
+    // public static boolean[] chromosomeToBooleanArray(Chromosome c) {
+    //     boolean[] res = new boolean[c.length()];
+    //     for(int i = 0;i  < res.length; i++) {
+    //         res[i] = c.getBit(i);
+    //     }
+    //     return res;
+    // }
 }
