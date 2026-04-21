@@ -1,0 +1,64 @@
+from type_alias import *
+from random_util import random_int, random_bernoulli
+import heapq
+
+def simple_elite_select(population: Population,
+                        count: int) -> list[Chromosome]:
+    if count >= len(population):
+        return sorted(population, key=lambda x: x[1], reverse=True)
+    
+    # Use heapq.nlargest to efficiently get top k elements
+    top_k = heapq.nlargest(count, population, key=lambda x: x[1])
+    return [(genestring.copy(), fitness) for genestring, fitness in top_k]
+
+
+def tournament_select(population: Population,
+                      tournament_size: int,
+                      *args) -> GeneString | None:
+    best = (None, float("-inf"))
+
+    for count in range(tournament_size):
+        pick_idx = random_int(len(population), *args, "selection")
+        best = max(best, population[pick_idx], key=lambda x: x[1])
+
+    selected = best[0]
+    return None if selected is None else selected.copy()
+
+
+def onepoint_crossover(p1: GeneString,
+                       p2: GeneString,
+                       chrom_len: int,
+                       prob: float,
+                       *args) -> tuple[GeneString]:
+    if chrom_len < 0:
+        raise ValueError()
+    if len(p1) != chrom_len:
+        raise ValueError()
+    if len(p2) != chrom_len:
+        raise ValueError()
+    if not random_bernoulli(prob, *args, "crossover", "bernoulli"):
+        return p1.copy(), p2.copy()
+    
+    index = random_int(len(p1) - 1, *args, "crossover", "uniform")
+    if index < 0 or index >= len(p1) - 1:
+        raise ValueError()    
+    
+    c1 = p1[:index + 1] + p2[index + 1:]
+    c2 = p2[:index + 1] + p1[index + 1:]
+
+    return c1, c2
+
+
+def bitflip_mutate(c: GeneString,
+                   chrom_len: int,
+                   prob: float,
+                   *args) -> GeneString:
+    if len(c) != chrom_len:
+        raise ValueError(f"Chromosome length {len(c)} does not match expected length {chrom_len}")
+    if prob < 0 or prob > 1:
+        raise ValueError(f"Mutation probability must be between 0 and 1, got {prob}")
+    
+    mutated = []
+    for i, bit in enumerate(c):
+        mutated.append(not bit if random_bernoulli(prob, *args, "mutation", i) else bit)
+    return mutated
