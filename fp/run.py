@@ -24,18 +24,18 @@ def run_ga():
     ]
     
     for problem_name, config_file, output_file in problems:
-        print(f"\nRunning GA on {problem_name}...")
+        # print(f"\nRunning GA on {problem_name}...")
         try:
             main(['--config', str(config_file), '--out', str(output_file)])
-            print(f"Results saved to {output_file}")
+            # print(f"Results saved to {output_file}")
         except Exception as e:
             print(f"GA execution failed for {problem_name}: {e}")
             return 1
     
-    print("\n" + "=" * 60)
-    print("All tasks completed successfully!")
-    print("=" * 60)
-    print(f"Results and plots: {reports_dir}")
+    # print("\n" + "=" * 60)
+    # print("All tasks completed successfully!")
+    # print("=" * 60)
+    # print(f"Results and plots: {reports_dir}")
     return 0
 
 
