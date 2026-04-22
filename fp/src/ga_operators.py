@@ -1,5 +1,6 @@
+from typing import Callable, Any
 from type_alias import *
-from random_util import random_int, random_bernoulli
+from random_util import random_gen, random_int, random_bernoulli
 import heapq
 
 def simple_elite_select(population: Population,
@@ -14,11 +15,13 @@ def simple_elite_select(population: Population,
 
 def tournament_select(population: Population,
                       tournament_size: int,
-                      *args) -> GeneString | None:
+                      *args,
+                      rand_eng: Callable[[Any], int] = random_gen
+                      )-> GeneString | None:
     best = (None, float("-inf"))
 
     for count in range(tournament_size):
-        pick_idx = random_int(len(population), *args, "selection")
+        pick_idx = random_int(len(population), *args, "selection", random_engine=rand_eng)
         best = max(best, population[pick_idx], key=lambda x: x[1])
 
     selected = best[0]
@@ -29,17 +32,19 @@ def onepoint_crossover(p1: GeneString,
                        p2: GeneString,
                        chrom_len: int,
                        prob: float,
-                       *args) -> tuple[GeneString]:
+                       *args,
+                       rand_eng: Callable[[Any], int] = random_gen
+                       ) -> tuple[GeneString]:
     if chrom_len < 0:
         raise ValueError()
     if len(p1) != chrom_len:
         raise ValueError()
     if len(p2) != chrom_len:
         raise ValueError()
-    if not random_bernoulli(prob, *args, "crossover", "bernoulli"):
+    if not random_bernoulli(prob, *args, "crossover", "bernoulli", random_engine=rand_eng):
         return p1.copy(), p2.copy()
     
-    index = random_int(len(p1) - 1, *args, "crossover", "uniform")
+    index = random_int(len(p1) - 1, *args, "crossover", "uniform", random_engine=rand_eng)
     if index < 0 or index >= len(p1) - 1:
         raise ValueError()    
     
@@ -52,7 +57,9 @@ def onepoint_crossover(p1: GeneString,
 def bitflip_mutate(c: GeneString,
                    chrom_len: int,
                    prob: float,
-                   *args) -> GeneString:
+                   *args,
+                   rand_eng: Callable[[Any], int] = random_gen
+                   ) -> GeneString:
     if len(c) != chrom_len:
         raise ValueError(f"Chromosome length {len(c)} does not match expected length {chrom_len}")
     if prob < 0 or prob > 1:
@@ -60,5 +67,6 @@ def bitflip_mutate(c: GeneString,
     
     mutated = []
     for i, bit in enumerate(c):
-        mutated.append(not bit if random_bernoulli(prob, *args, "mutation", i) else bit)
+        mutated.append(not bit if random_bernoulli(prob, *args, "mutation", i, random_engine=rand_eng)
+                               else bit)
     return mutated
