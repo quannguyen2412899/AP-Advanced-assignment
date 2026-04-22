@@ -29,4 +29,4 @@ def random_double(start: float, end: float, *keys, random_engine = random_gen) -
 def random_bernoulli(p: float, *keys, random_engine = random_gen) -> bool:
     if p < 0 or p > 1:
         raise ValueError(f"Probability p must be between 0 and 1, got {p}")
-    return random_engine(0, 1, *keys) < p
+    return random_double(0, 1, *keys, random_engine=random_engine) < p
