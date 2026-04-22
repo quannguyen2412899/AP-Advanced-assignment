@@ -42,7 +42,7 @@ public class EvolutionStep {
      */
     public Population evolve(Population population) {
         int populationSize = population.size();
-        int chromosomeLength = population.getIndividual(0).length();
+        // int chromosomeLength = population.getIndividual(0).length();
         List<Chromosome> newPopulationChromosomes = new ArrayList<>();
 
         // --------- Elitism ---------

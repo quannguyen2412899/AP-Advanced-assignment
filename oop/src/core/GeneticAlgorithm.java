@@ -19,13 +19,13 @@ public class GeneticAlgorithm {
     }
 
     // Return the best Chromosome found after evolution
-    // Currently only return the last generation best chromosome, not the best among generations
     public Chromosome run(Population initialPopulation, EvolutionReporter reporter, int maxGenerations) {
         if (maxGenerations <= 0) throw new IllegalArgumentException("maxGenerations must be > 0");
         
         Population currentPopulation = initialPopulation;
-        int generation;
-        for (generation = 0; generation < maxGenerations; generation++) {
+        reporter.record(GenerationStatistics.statisticsOf(currentPopulation, 0));
+
+        for (int generation = 1; generation <= maxGenerations; generation++) {
             try {
                 // --------- One step evolution ---------
                 Population newPopulation = oneStepEvolution.evolve(currentPopulation);
