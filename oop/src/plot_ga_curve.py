@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 import matplotlib.pyplot as plt
 
 def plot(input_file: str, output_file: str) -> None:
@@ -43,3 +44,9 @@ def plot(input_file: str, output_file: str) -> None:
     # Save and clear memory
     plt.savefig(output_file)
     plt.close()
+
+if __name__ == "__main__":
+    if len(sys.argv) != 3:
+        print("Usage: python plot_ga_curve.py <input_json> <output_png>")
+        sys.exit(1)
+    plot(sys.argv[1], sys.argv[2])

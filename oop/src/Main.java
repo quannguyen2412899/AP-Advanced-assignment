@@ -54,6 +54,12 @@ public class Main {
             System.out.println("Problem: " + Paths.get(generalConfigFile).toAbsolutePath());
             System.out.println("Final best fitness: " + finalBestChromosome.getFitness());
             System.out.println("Execution time: " + (endTime - startTime) + "ms\n");
+            
+            /** Plot results **/
+            String plotFile = outputFile.replace(".json", ".png");
+            String plotCommand = "python3 oop/src/plot_ga_curve.py " + outputFile + " " + plotFile;
+            Process plotProcess = Runtime.getRuntime().exec(plotCommand);
+            plotProcess.waitFor();
         } 
         catch(Exception e) {
             errorExit(e.getMessage());
