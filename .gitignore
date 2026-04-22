@@ -43,3 +43,7 @@ Thumbs.db
 LTNC_MR_Assignment.pdf
 sandbox
 __pycache__
+venv
+
+# Exceptions #
+!oop/lib/gson-2.13.2.jar
