@@ -1,6 +1,7 @@
 from type_alias import GeneString
 
-def get_fitness_function(problem: str, **kwargs):
+def get_fitness_function(**kwargs):
+    problem = kwargs.get("name")
     if problem == "onemax":
         chrom_len = kwargs.get("chromosomeLength", None)
         return lambda c: onemax_evaluator(c, chrom_len)
