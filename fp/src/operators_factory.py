@@ -17,7 +17,6 @@ def get_selection_strategy(**kwargs):
 def get_crossover_strategy(**kwargs):
     name = kwargs.get("strategy")
     if name == "onePointCrossover":
-        # chrom_len = kwargs.get("chromosomeLength", None)
         prob = kwargs.get("rate", None)
         return lambda p1, p2, *args: onepoint_crossover(p1, p2, prob, *args)
 

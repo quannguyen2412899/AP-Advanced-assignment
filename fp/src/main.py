@@ -7,7 +7,7 @@ from random_util import random_bernoulli
 from genetic_algorithm import get_one_step_GA, execute_GA
 from fitness_functions import get_fitness_function
 from operators_factory import *
-
+from plot_ga_curve import plot
 
 def read_config(config_path: str) -> dict:
     """
@@ -105,6 +105,10 @@ def main(args):
     print("Execution time: " + str(execution_time) + " ms")
     with open(output_path, 'w') as f:
         json.dump(stats, f, indent=4)
+    
+    # Plot the results
+    plot_output_path = output_path.rsplit('.', 1)[0] + '.png'
+    plot(output_path, plot_output_path)
 
 
 if __name__ == "__main__":

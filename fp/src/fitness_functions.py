@@ -10,7 +10,7 @@ def get_fitness_function(**kwargs):
         chrom_len = kwargs.get("chromosomeLength", None)
         weights = kwargs.get("weights", None)
         values = kwargs.get("values", None)
-        capacity = kwargs.get("capacity", None)
+        capacity = kwargs.get("capacityOverTotal", None) * sum(weights)
         return lambda c: knapsack_evaluator(c, chrom_len, weights, values, capacity)
 
 

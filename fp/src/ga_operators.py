@@ -21,7 +21,7 @@ def tournament_select(population: Population,
     best = (None, float("-inf"))
 
     for count in range(tournament_size):
-        pick_idx = random_int(len(population), *args, "selection", random_engine=rand_eng)
+        pick_idx = random_int(len(population), *args, "selection", count, random_engine=rand_eng)
         best = max(best, population[pick_idx], key=lambda x: x[1])
 
     selected = best[0]
@@ -60,5 +60,5 @@ def bitflip_mutate(c: GeneString,
     mutated = []
     for i, bit in enumerate(c):
         mutated.append(not bit if random_bernoulli(prob, *args, "mutation", i, random_engine=rand_eng)
-                               else bit)
+                       else bit)
     return mutated

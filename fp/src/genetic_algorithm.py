@@ -3,7 +3,7 @@ from typing import Callable, Any
 from math import sqrt
 
 def get_one_step_GA(fitness: Callable[[GeneString], int],
-                    elite: Callable[[Population], Population],
+                    elite: Callable[[Population], list[Chromosome]],
                     select: Callable[[Population, Any], GeneString],
                     crossover: Callable[[GeneString, GeneString, Any], tuple[GeneString, GeneString]],
                     mutate: Callable[[GeneString, Any], GeneString],
@@ -42,7 +42,7 @@ def one_step_GA(fitness: Callable[[GeneString], int],
         p2 = select(population, *args, "p2", harsh_key)
 
         # Crossover
-        c1, c2 = crossover(p1, p2, harsh_key, *args)
+        c1, c2 = crossover(p1, p2, *args, harsh_key)
 
         # Mutation
         c1 = mutate(c1, *args, "c1", harsh_key)
