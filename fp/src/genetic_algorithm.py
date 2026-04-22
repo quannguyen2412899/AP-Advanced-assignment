@@ -7,11 +7,12 @@ def get_one_step_GA(fitness: Callable[[GeneString], int],
                     select: Callable[[Population, Any], GeneString],
                     crossover: Callable[[GeneString, GeneString, Any], tuple[GeneString, GeneString]],
                     mutate: Callable[[GeneString, Any], GeneString],
-                    population_size: int
+                    population_size: int,
+                    random_seed: int
                     ) -> Callable[[Population], Population]:
 
     return lambda population, *args:\
-           one_step_GA(fitness, elite, select, crossover, mutate, population, population_size, *args)
+           one_step_GA(fitness, elite, select, crossover, mutate, population, population_size, random_seed, *args)
 
 
 def one_step_GA(fitness: Callable[[GeneString], int],
@@ -37,15 +38,15 @@ def one_step_GA(fitness: Callable[[GeneString], int],
     harsh_key = 0
     while len(new_population) < population_size:
         # Selection
-        p1 = select(population, "p1", harsh_key, *args)
-        p2 = select(population, "p2", harsh_key, *args)
+        p1 = select(population, *args, "p1", harsh_key)
+        p2 = select(population, *args, "p2", harsh_key)
 
         # Crossover
         c1, c2 = crossover(p1, p2, harsh_key, *args)
 
         # Mutation
-        c1 = mutate(c1, "c1", harsh_key, *args)
-        c2 = mutate(c2, "c2", harsh_key, *args)
+        c1 = mutate(c1, *args, "c1", harsh_key)
+        c2 = mutate(c2, *args, "c2", harsh_key)
 
         # Fitness evaluation
         f1 = fitness(c1)

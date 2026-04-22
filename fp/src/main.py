@@ -1,9 +1,9 @@
 import sys
 import json
-import random
 import time
 from pathlib import Path
 from type_alias import *
+from random_util import random_bernoulli
 from genetic_algorithm import get_one_step_GA, execute_GA
 from fitness_functions import get_fitness_function
 from operators_factory import *
@@ -25,12 +25,12 @@ def read_config(config_path: str) -> dict:
         sys.exit(1)
 
     
-def init_GA_param(config: dict) -> tuple[Callable[[Population], Population], int, int, int]:
+def init_GA_param(config: dict) -> tuple[Callable[[Population], Population], Population, int]:
     # Extract configuration parameters
     population_size = config.get("populationSize")
     chromosome_length = config.get("chromosomeLength")
     max_generations = config.get("maxGenerations")
-    # random_seed = config.get("randomSeed")
+    random_seed = config.get("randomSeed")
     
     selection_config = config.get("selection", {})
     crossover_config = config.get("crossover", {})
@@ -55,17 +55,23 @@ def init_GA_param(config: dict) -> tuple[Callable[[Population], Population], int
     crossover = get_crossover_strategy(**crossover_config_with_len)
     mutation = get_mutation_strategy(**mutation_config_with_len)
 
-    onestep = get_one_step_GA(fitness_func, elitism, selection, crossover, mutation, population_size)
-    return onestep, population_size, chromosome_length, max_generations
+    onestep = get_one_step_GA(fitness_func, elitism, selection, crossover, mutation, population_size, random_seed)
+    init_population = init_random_population(population_size, chromosome_length, fitness_func, random_seed)
+
+    return onestep, init_population, max_generations
 
 
 def init_random_population(population_size: int,
-                           chromosome_len: int
+                           chromosome_len: int,
+                           fitness_func: Callable[[GeneString], int],
+                           random_seed: int
                            ) -> Population:
     population = []
-    for _ in range(population_size):
-        chromosome = [random.choice([True, False]) for _ in range(chromosome_len)]
-        population.append((chromosome, 0))
+    for i in range(population_size):
+        bitstring = []
+        for j in range(chromosome_len):
+            bitstring.append(random_bernoulli(0.5, random_seed, "init", i, j))
+        population.append((bitstring, fitness_func(bitstring)))
     return population
 
 
@@ -85,8 +91,7 @@ def main(args):
     config = read_config(config_path)
     
     # Initialization
-    onestep, population_size, chromosome_len, max_generation = init_GA_param(config)
-    init_population = init_random_population(population_size, chromosome_len)
+    onestep, init_population, max_generation = init_GA_param(config)
 
     # Execution
     start_time = time.time()
@@ -100,6 +105,7 @@ def main(args):
     print("Execution time: " + str(execution_time) + " ms")
     with open(output_path, 'w') as f:
         json.dump(stats, f, indent=4)
+
 
 if __name__ == "__main__":
     main(sys.argv[1:])
