@@ -30,16 +30,11 @@ def tournament_select(population: Population,
 
 def onepoint_crossover(p1: GeneString,
                        p2: GeneString,
-                       chrom_len: int,
                        prob: float,
                        *args,
                        rand_eng: Callable[[Any], int] = random_gen
                        ) -> tuple[GeneString]:
-    if chrom_len < 0:
-        raise ValueError()
-    if len(p1) != chrom_len:
-        raise ValueError()
-    if len(p2) != chrom_len:
+    if len(p1) != len(p2):
         raise ValueError()
     if not random_bernoulli(prob, *args, "crossover", "bernoulli", random_engine=rand_eng):
         return p1.copy(), p2.copy()
@@ -55,13 +50,10 @@ def onepoint_crossover(p1: GeneString,
 
 
 def bitflip_mutate(c: GeneString,
-                   chrom_len: int,
                    prob: float,
                    *args,
                    rand_eng: Callable[[Any], int] = random_gen
                    ) -> GeneString:
-    if len(c) != chrom_len:
-        raise ValueError(f"Chromosome length {len(c)} does not match expected length {chrom_len}")
     if prob < 0 or prob > 1:
         raise ValueError(f"Mutation probability must be between 0 and 1, got {prob}")
     

@@ -45,15 +45,15 @@ def init_GA_param(config: dict) -> tuple[Callable[[Population], Population], Pop
         sys.exit(1)
 
     # Add chromosome length to configs for validation
-    selection_config_with_len = {**selection_config, "chromosomeLength": chromosome_length}
-    crossover_config_with_len = {**crossover_config, "chromosomeLength": chromosome_length}
-    mutation_config_with_len = {**mutation_config, "chromosomeLength": chromosome_length}
+    # selection_config_with_len = {**selection_config, "chromosomeLength": chromosome_length}
+    # crossover_config_with_len = {**crossover_config, "chromosomeLength": chromosome_length}
+    # mutation_config_with_len = {**mutation_config, "chromosomeLength": chromosome_length}
 
     fitness_func = get_fitness_function(**problem_config, chromosomeLength=chromosome_length)
     elitism = get_elitism_strategy(**elitism_config)
-    selection = get_selection_strategy(**selection_config_with_len)
-    crossover = get_crossover_strategy(**crossover_config_with_len)
-    mutation = get_mutation_strategy(**mutation_config_with_len)
+    selection = get_selection_strategy(**selection_config)
+    crossover = get_crossover_strategy(**crossover_config)
+    mutation = get_mutation_strategy(**mutation_config)
 
     onestep = get_one_step_GA(fitness_func, elitism, selection, crossover, mutation, population_size, random_seed)
     init_population = init_random_population(population_size, chromosome_length, fitness_func, random_seed)
