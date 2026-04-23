@@ -40,11 +40,10 @@ public class Main {
                                                         config.crossoverStrategy(),
                                                         config.mutationStrategy(),
                                                         config.randomUtil());
-            EvolutionReporter reporter = new EvolutionReporter();
+            Population initialPopulation = config.generateRandomPopulation();
+            EvolutionReporter reporter = new EvolutionReporter(initialPopulation);
 
             /** Execution **/
-            Population initialPopulation = config.generateRandomPopulation();
-            
             long startTime = System.nanoTime();
             Chromosome finalBestChromosome = ga.run(initialPopulation, reporter, maxGenerations);
             long endTime = System.nanoTime();

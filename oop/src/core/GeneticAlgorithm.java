@@ -23,7 +23,6 @@ public class GeneticAlgorithm {
         if (maxGenerations <= 0) throw new IllegalArgumentException("maxGenerations must be > 0");
         
         Population currentPopulation = initialPopulation;
-        reporter.record(GenerationStatistics.statisticsOf(currentPopulation, 0));
 
         for (int generation = 1; generation <= maxGenerations; generation++) {
             try {

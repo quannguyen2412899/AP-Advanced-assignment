@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import models.Population;
 
 public class EvolutionReporter {
     
@@ -13,8 +14,9 @@ public class EvolutionReporter {
     private int generationOfOptimal;
     private int totalGenerations;
 
-    public EvolutionReporter() {
+    public EvolutionReporter(Population initPopulation) {
         allGenerationStatistics = new ArrayList<>();
+        allGenerationStatistics.add(GenerationStatistics.statisticsOf(initPopulation, 0));
         generationOfOptimal = 0;
         totalGenerations = 0;
     }
