@@ -44,7 +44,14 @@ Example (from `problems/onemax.json`): population size 100, chromosome length 10
 
 ## 3. How to Run
 
-### 3.1 OOP Version (Java)
+### 3.1 Development Environment
+- **Java:** OpenJDK 17.0.17
+- **Python:** Python 3.14.3
+- **Dependencies:**
+  - `matplotlib`
+  - `gson-2.13.2.jar` (included in `oop/lib`)
+
+### 3.2 OOP Version (Java)
 Run from the repository root:
 
 ```bash
@@ -54,10 +61,16 @@ python oop/run.py
 What it does:
 - Compiles Java sources into `oop/bin`
 - Runs GA for both problems using:
-  - `problems/onemax.json` → outputs: `reports/results_onemax_oop.json`
-  - `problems/knapsack.json` → outputs: `reports/results_knapsack_oop.json`
 
-### 3.2 FP Version (Python)
+  - `problems/onemax.json`
+  
+    → outputs: `reports/results_onemax_oop.json` and `reports/results_onemax_oop_curve.png`
+
+  - `problems/knapsack.json`
+  
+    → outputs: `reports/results_knapsack_oop.json` and `reports/results_knapsack_oop_curve.png}`
+
+### 3.3 FP Version (Python)
 Run from the repository root:
 
 ```bash
@@ -67,7 +80,12 @@ python fp/run.py
 What it does:
 - Executes the FP GA implementation for both problems and writes:
   - `reports/results_onemax_fp.json`
+  
+    → outputs: `reports/results_onemax_fp.json` and `reports/results_onemax_fp_curve.png`
+
   - `reports/results_knapsack_fp.json`
+  
+    → outputs: `reports/results_knapsack_fp.json` and `reports/results_knapsack_fp_curve.png}`
 
 ---
 
@@ -86,7 +104,7 @@ Key OOP goals reflected in the implementation:
 - **Strategy pattern:** Concrete classes (e.g., `TournamentSelection`, `OnePointCrossover`, `BitFlipMutation`, `SimpleElitism`) implement interchangeable operator behavior.
 - **Separation of concerns:** The GA run loop, “one-generation evolution”, fitness evaluation, and reporting/plotting are separated into different packages/files.
 
-Read `oop/README.md` for more implementation details.
+More implementation details can be found in `oop/README.md`.
 
 ---
 
@@ -105,7 +123,7 @@ Key FP goals reflected in the implementation:
   - `fitness` is computed by the fitness function
 - Populations are lists of these tuples, transformed into new populations each generation.
 
-Read `fp/README.md` for more implementation details.
+More implementation details can be found in `fp/README.md`.
 
 ---
 
@@ -135,21 +153,29 @@ In both versions, the PNG filename is derived from the JSON output name by appen
 ## 5.2 0/1 Knapsack
 - **Chromosome:** bitstring length = number of items (100)
 - **Fitness:** total value if within capacity; otherwise **0**
-- **Expected behavior:** fitness improves over generations but may plateau due to feasibility constraint and local optima.
+- **Expected 
 
 ---
 
 ## 6. Results and Reporting Artifacts
 
 The `reports/` directory in the repository contains:
-- `reports/results_onemax_oop.json`
-- `reports/results_knapsack_oop.json`
-- `reports/results_onemax_fp.json`
-- `reports/results_knapsack_fp.json`
-- `reports/results_onemax_oop_curve.png`
-- `reports/results_knapsack_oop_curve.png`
-- `reports/results_onemax_fp_curve.png`
-- `reports/results_knapsack_fp_curve.png`
+- OOP's result:
+  - `reports/results_onemax_oop.json`
+  - `reports/results_knapsack_oop.json`
+  - `reports/results_onemax_oop_curve.png`
+  - `reports/results_knapsack_oop_curve.png`
+
+  **Behavior:** fitness increase quickly and approach 100 within 50 generations.
+
+- FP's result: 
+  - `reports/results_onemax_fp.json`
+  - `reports/results_knapsack_fp.json`
+  - `reports/results_onemax_fp_curve.png`
+  - `reports/results_knapsack_fp_curve.png`
+
+  **Behavior:** fitness improves over generations but plateau due to feasibility constraint and local optima.
+
 
 The following final results were printed by each implementation when running:
 

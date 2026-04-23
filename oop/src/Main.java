@@ -57,7 +57,7 @@ public class Main {
             
             /** Plot results **/
             String plotFile = outputFile.replace(".json", "_curve.png");
-            String plotCommand = "python3 oop/src/plot_ga_curve.py " + outputFile + " " + plotFile;
+            String plotCommand = "python oop/src/plot_ga_curve.py " + outputFile + " " + plotFile;
             Process plotProcess = Runtime.getRuntime().exec(plotCommand);
             plotProcess.waitFor();
         } 
