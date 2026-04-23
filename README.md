@@ -73,43 +73,55 @@ What it does:
 
 ## 4. Implementation Design
 
+Both versions implement the same pipeline:
+
+**Reads config JSON → builds operators → runs GA → prints results → writes JSON → plots PNG.**
+
 ## 4.1 OOP Design (Java)
-The OOP solution follows a component-based GA architecture (as required by the spec), where responsibilities are separated into distinct abstractions.
+The OOP version is implemented in Java under `oop/src/` and is structured to follow classic OOP principles: **abstraction via interfaces**, **encapsulation of state**, and **pluggable behavior via the Strategy pattern**. The GA “engine” is composed from smaller components (fitness evaluator + operator strategies + RNG utility), so the `GeneticAlgorithm` class itself focuses on orchestration rather than implementing every operator directly.
 
-### Main ideas
-- **Encapsulation:** GA state (population, individuals, configuration) is hidden behind class boundaries.
-- **Modularity:** Operators (selection/crossover/mutation/elitism) can be swapped by changing strategy selection.
-- **Extensibility:** Adding a new problem typically means adding a new fitness function and configuration.
+Key OOP goals reflected in the implementation:
+- **Encapsulation:** Individuals and populations are modeled with dedicated classes (`Chromosome`, `Population`) with controlled accessors and validation.
+- **Abstraction:** GA operators are expressed as interfaces (`SelectionStrategy`, `CrossoverStrategy`, `MutationStrategy`, `ElitismStrategy`), separating *what the GA needs* from *how it is done*.
+- **Strategy pattern:** Concrete classes (e.g., `TournamentSelection`, `OnePointCrossover`, `BitFlipMutation`, `SimpleElitism`) implement interchangeable operator behavior.
+- **Separation of concerns:** The GA run loop, “one-generation evolution”, fitness evaluation, and reporting/plotting are separated into different packages/files.
 
-### Conceptual class responsibilities (spec-aligned)
-- `Chromosome`: stores genes (bitstring) and fitness
-- `Population`: manages a collection of chromosomes
-- `SelectionStrategy`: selects parents (tournament selection used)
-- `CrossoverStrategy`: produces offspring (one-point crossover used)
-- `MutationStrategy`: mutates genes (bit-flip mutation used)
-- `GeneticAlgorithm`: orchestrates the evolution loop and elitism
-
-### Execution / outputs
-The OOP runner writes results into JSON files in `reports/`:
-- `reports/results_onemax_oop.json`
-- `reports/results_knapsack_oop.json`
-
-These outputs are intended to support plotting of fitness curves and comparison against FP.
+Read `oop/README.md` for more implementation details.
 
 ---
 
 ## 4.2 FP Design (Python)
-The FP solution is organized around functions (no classes), aiming to keep operations **pure** and data **immutable** as much as practical.
+The FP version is implemented in Python under `fp/src/` and aims to express the GA as a set of **pure(ish) transformations** over immutable-looking data. Instead of encoding behavior in objects, behavior is expressed through **functions**, and configuration selects which functions are used.
 
-### Main ideas
-- **Pure functions:** selection, crossover, mutation, and fitness evaluation are implemented as composable functions.
-- **Immutability:** rather than mutating individuals in-place, functions return new individuals/populations.
-- **Higher-order functions:** evolution steps are naturally expressed using mapping and transformation.
+Key FP goals reflected in the implementation:
+- **Function composition / higher-order functions:** The GA is built by composing operator functions into an evolution step (e.g., creating `one_step` through `get_one_step_GA(...)`).
+- **Immutability-by-copy:** Parent selection and operators return `.copy()` results and build new lists rather than mutating the original population in-place.
+- **Declarative transformations:** Operators use `map(...)` and functional-style utilities to transform populations/gene strings.
+- **Minimal side effects:** The primary side effects are restricted to CLI printing; the evolutionary operators themselves are structured as input → output functions.
 
-### Execution / outputs
-The FP runner calls a `main(...)` function with `--config` and `--out`, writing:
-- `reports/results_onemax_fp.json`
-- `reports/results_knapsack_fp.json`
+### Data representation (FP)
+- A chromosome is represented as a `(genestring, fitness)` tuple, where:
+  - `genestring` is a list of booleans / bits
+  - `fitness` is computed by the fitness function
+- Populations are lists of these tuples, transformed into new populations each generation.
+
+Read `fp/README.md` for more implementation details.
+
+---
+
+## 4.3 Plot Generation (both versions)
+Both implementations generate the required fitness-evolution plots using a shared idea and near-identical scripts:
+
+- OOP plot script: `oop/src/plot_ga_curve.py`
+- FP plot script: `fp/src/plot_ga_curve.py`
+
+The plotting script reads the exported JSON statistics and draws:
+- Red line: **population max fitness** per generation
+- Green line: **population average fitness**
+- Green shaded area: **± 1 standard deviation** around the average fitness
+- Black vertical dashed line: **generationOfOptimal** (the generation where the best fitness was first achieved)
+
+In both versions, the PNG filename is derived from the JSON output name by appending `_curve.png`.
 
 ---
 
@@ -129,26 +141,46 @@ The FP runner calls a `main(...)` function with `--config` and `--out`, writing:
 
 ## 6. Results and Reporting Artifacts
 
-### JSON outputs (produced by runs)
-- OOP:
-  - `reports/results_onemax_oop.json`
-  - `reports/results_knapsack_oop.json`
-- FP:
-  - `reports/results_onemax_fp.json`
-  - `reports/results_knapsack_fp.json`
+The `reports/` directory in the repository contains:
+- `reports/results_onemax_oop.json`
+- `reports/results_knapsack_oop.json`
+- `reports/results_onemax_fp.json`
+- `reports/results_knapsack_fp.json`
+- `reports/results_onemax_oop_curve.png`
+- `reports/results_knapsack_oop_curve.png`
+- `reports/results_onemax_fp_curve.png`
+- `reports/results_knapsack_fp_curve.png`
 
-### Plots (as required by spec)
-- `reports/onemax_curve.png`
-- `reports/knapsack_curve.png`
+The following final results were printed by each implementation when running:
 
-> Note: The repository run scripts ensure the `reports/` folder exists and place JSON outputs there. If the plot images are generated by a separate script/notebook, ensure they are saved with the filenames above.
+### OOP (Java)
+- **OneMax**
+  - Final best fitness: **100.0**
+  - Execution time: **135.152657 ms**
+- **Knapsack**
+  - Final best fitness: **1857.0**
+  - Execution time: **206.027027 ms**
+
+### FP (Python)
+- **OneMax**
+  - Final best fitness: **100**
+  - Execution time: **16845.593214035034 ms**
+- **Knapsack**
+  - Final best fitness: **1854**
+  - Execution time: **19985.15796661377 ms**
+
+*Note: Java's ~100× speed advantage is due to compiled bytecode vs Python interpretation; actual execution time also depends on hardware and system load.*
 
 ---
 
 ## 7. Testing
-Both implementations include minimal unit tests under:
-- `oop/tests/`
-- `fp/tests/`
+Both implementations include minimal unit tests under `oop/tests/` and `fp/tests/`
+
+To test the stochastic operators:
+- In OOP version: implement `FakeRandomUtil` that extends `RandomUtil` to inject controlled sequences
+- In FP version: implement `fake_random_engine` that returns predetermined sequences passed as `rand_eng` parameter
+
+This approach transforms inherently stochastic operators into deterministic, testable units by injecting controlled randomness.
 
 The test scope targets core GA components:
 - Fitness evaluation correctness
@@ -159,7 +191,7 @@ The test scope targets core GA components:
 
 ---
 
-## 8. Reflection (≤ 500 words): OOP vs FP Trade-offs
+## 8. Reflection: OOP vs FP Trade-offs
 Both paradigms successfully express the same GA, but the development experience differs.
 
 **OOP strengths:** The strategy-based design makes it intuitive to extend the GA with new operators or additional problems. Each component has a clearly defined responsibility, and state management is explicit through objects (e.g., `Population`, `Chromosome`). This helps readability for large projects and supports future extensibility (e.g., adding multi-point crossover or different elitism approaches) with minimal impact on existing code.
