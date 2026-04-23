@@ -29,11 +29,11 @@ The GA settings are controlled through configuration files in the repository (e.
 | :--- | :--- |
 | Representation | Bitstring |
 | Population size | 100 |
-| Chromosome length (OneMax) | 100 |
+| Chromosome length | 100 |
 | Parent selection | Tournament, k = 3 |
 | Crossover | One-point, rate = 0.9 |
 | Mutation | Bit-flip, rate per bit = 1/L = 0.01 |
-| Replacement | Generational + elitism |
+| Replacement | Elitism |
 | Elitism | e = 2 |
 | Termination | 300 generations |
 | Random seed | 42 |
@@ -68,7 +68,7 @@ What it does:
 
   - `problems/knapsack.json`
   
-    → outputs: `reports/results_knapsack_oop.json` and `reports/results_knapsack_oop_curve.png}`
+    → outputs: `reports/results_knapsack_oop.json` and `reports/results_knapsack_oop_curve.png`
 
 ### 3.3 FP Version (Python)
 Run from the repository root:
@@ -85,7 +85,7 @@ What it does:
 
   - `reports/results_knapsack_fp.json`
   
-    → outputs: `reports/results_knapsack_fp.json` and `reports/results_knapsack_fp_curve.png}`
+    → outputs: `reports/results_knapsack_fp.json` and `reports/results_knapsack_fp_curve.png`
 
 ---
 
@@ -143,21 +143,7 @@ In both versions, the PNG filename is derived from the JSON output name by appen
 
 ---
 
-## 5. Problems Solved
-
-## 5.1 OneMax
-- **Chromosome:** bitstring length 100
-- **Fitness:** count of `1` bits
-- **Expected behavior:** fitness should increase quickly and (often) approach 100 within 300 generations.
-
-## 5.2 0/1 Knapsack
-- **Chromosome:** bitstring length = number of items (100)
-- **Fitness:** total value if within capacity; otherwise **0**
-- **Expected 
-
----
-
-## 6. Results and Reporting Artifacts
+## 5. Results and Reporting Artifacts
 
 The `reports/` directory in the repository contains:
 - OOP's result:
@@ -166,7 +152,7 @@ The `reports/` directory in the repository contains:
   - `reports/results_onemax_oop_curve.png`
   - `reports/results_knapsack_oop_curve.png`
 
-  **Behavior:** fitness increase quickly and approach 100 within 50 generations.
+  **Behavior:** fitness increases quickly and approaches 100 within 50 generations.
 
 - FP's result: 
   - `reports/results_onemax_fp.json`
@@ -174,7 +160,7 @@ The `reports/` directory in the repository contains:
   - `reports/results_onemax_fp_curve.png`
   - `reports/results_knapsack_fp_curve.png`
 
-  **Behavior:** fitness improves over generations but plateau due to feasibility constraint and local optima.
+  **Behavior:** fitness improves over generations but plateaus due to feasibility constraints and local optima.
 
 
 The following final results were printed by each implementation when running:
@@ -199,8 +185,8 @@ The following final results were printed by each implementation when running:
 
 ---
 
-## 7. Testing
-Both implementations include minimal unit tests under `oop/tests/` and `fp/tests/`
+## 6. Testing
+Both implementations include minimal unit tests under `oop/tests/` and `fp/tests/`.
 
 To test the stochastic operators:
 - In OOP version: implement `FakeRandomUtil` that extends `RandomUtil` to inject controlled sequences
@@ -217,7 +203,7 @@ The test scope targets core GA components:
 
 ---
 
-## 8. Reflection: OOP vs FP Trade-offs
+## 7. Reflection: OOP vs FP Trade-offs
 Both paradigms successfully express the same GA, but the development experience differs.
 
 **OOP strengths:** The strategy-based design makes it intuitive to extend the GA with new operators or additional problems. Each component has a clearly defined responsibility, and state management is explicit through objects (e.g., `Population`, `Chromosome`). This helps readability for large projects and supports future extensibility (e.g., adding multi-point crossover or different elitism approaches) with minimal impact on existing code.
@@ -232,5 +218,5 @@ Overall, **OOP** is strong for extensible architecture and “pluggable” compo
 
 ---
 
-## 9. Conclusion
+## 8. Conclusion
 This project demonstrates that a GA can be implemented using both OOP and FP while keeping identical configurations and problem definitions. The dual implementation highlights practical trade-offs in structure, extensibility, conciseness, and how state is managed. The produced JSON outputs and plots enable direct comparison of convergence behavior and performance across paradigms.
