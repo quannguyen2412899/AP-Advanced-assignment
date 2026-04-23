@@ -34,7 +34,7 @@ def onepoint_crossover(p1: GeneString,
                        prob: float,
                        *args,
                        rand_eng: Callable[[Any], int] = random_gen
-                       ) -> tuple[GeneString]:
+                       ) -> tuple[GeneString, GeneString]:
     if len(p1) != len(p2):
         raise ValueError()
     if not random_bernoulli(prob, *args, "crossover", "bernoulli", random_engine=rand_eng):
