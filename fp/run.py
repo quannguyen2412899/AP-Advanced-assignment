@@ -19,23 +19,19 @@ def run_ga():
     
     # Run GA on both problems
     problems = [
-        ("onemax", project_root / "problems/onemax.json", reports_dir / "results_onemax_fp.json"),
-        ("knapsack", project_root / "problems/knapsack.json", reports_dir / "results_knapsack_fp.json")
+        ("Onemax", project_root / "problems/onemax.json", reports_dir / "results_onemax_fp.json"),
+        ("Knapsack", project_root / "problems/knapsack.json", reports_dir / "results_knapsack_fp.json")
     ]
     
     for problem_name, config_file, output_file in problems:
-        # print(f"\nRunning GA on {problem_name}...")
+        print(f"\nRunning GA (FP) on {problem_name}...")
         try:
             main(['--config', str(config_file), '--out', str(output_file)])
-            # print(f"Results saved to {output_file}")
         except Exception as e:
             print(f"GA execution failed for {problem_name}: {e}")
             return 1
     
-    # print("\n" + "=" * 60)
-    # print("All tasks completed successfully!")
-    # print("=" * 60)
-    # print(f"Results and plots: {reports_dir}")
+    print("\nAll tasks completed successfully!\n")
     return 0
 
 

@@ -45,18 +45,18 @@ public class Main {
             /** Execution **/
             Population initialPopulation = config.generateRandomPopulation();
             
-            long startTime = System.currentTimeMillis();
+            long startTime = System.nanoTime();
             Chromosome finalBestChromosome = ga.run(initialPopulation, reporter, maxGenerations);
-            long endTime = System.currentTimeMillis();
+            long endTime = System.nanoTime();
 
             /** Results exportation **/
             reporter.exportStatistics(outputFile);
             System.out.println("Problem: " + Paths.get(generalConfigFile).toAbsolutePath());
             System.out.println("Final best fitness: " + finalBestChromosome.getFitness());
-            System.out.println("Execution time: " + (endTime - startTime) + "ms\n");
+            System.out.println("Execution time: " + (endTime - startTime) / 1000000.0 + " ms\n");
             
             /** Plot results **/
-            String plotFile = outputFile.replace(".json", ".png");
+            String plotFile = outputFile.replace(".json", "_curve.png");
             String plotCommand = "python3 oop/src/plot_ga_curve.py " + outputFile + " " + plotFile;
             Process plotProcess = Runtime.getRuntime().exec(plotCommand);
             plotProcess.waitFor();

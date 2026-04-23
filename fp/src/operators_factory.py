@@ -6,7 +6,7 @@ def get_elitism_strategy(**kwargs) -> Callable[[Population], list[Chromosome]]:
     if name == "simpleElitism":
         count = kwargs.get("count")
         if count is None:
-            raise ValueError
+            raise ValueError()
         return lambda population: simple_elite_select(population, count)
     
     raise ValueError()
@@ -17,7 +17,7 @@ def get_selection_strategy(**kwargs) -> Callable[[Population, Any], GeneString |
     if name == "tournamentSelection":
         tournament_size = kwargs.get("size")
         if tournament_size is None:
-            raise ValueError
+            raise ValueError()
         return lambda population, *args: tournament_select(population, tournament_size, *args)
     
     raise ValueError()
@@ -39,7 +39,7 @@ def get_mutation_strategy(**kwargs) -> Callable[[GeneString, Any], GeneString]:
     if name == "bitFlipMutation":
         prob = kwargs.get("ratePerBit", None)
         if prob is None:
-            raise ValueError
+            raise ValueError()
         return lambda c, *args: bitflip_mutate(c, prob, *args)
     
     raise ValueError()

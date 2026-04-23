@@ -58,11 +58,4 @@ public class GenerationStatistics {
                                         bestSolution);
     }
 
-    // public static boolean[] chromosomeToBooleanArray(Chromosome c) {
-    //     boolean[] res = new boolean[c.length()];
-    //     for(int i = 0;i  < res.length; i++) {
-    //         res[i] = c.getBit(i);
-    //     }
-    //     return res;
-    // }
 }

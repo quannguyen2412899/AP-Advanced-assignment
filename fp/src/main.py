@@ -44,11 +44,6 @@ def init_GA_param(config: dict) -> tuple[Callable[[Population], Population], Pop
         print("Error: Missing required configurations.")
         sys.exit(1)
 
-    # Add chromosome length to configs for validation
-    # selection_config_with_len = {**selection_config, "chromosomeLength": chromosome_length}
-    # crossover_config_with_len = {**crossover_config, "chromosomeLength": chromosome_length}
-    # mutation_config_with_len = {**mutation_config, "chromosomeLength": chromosome_length}
-
     fitness_func = get_fitness_function(**problem_config, chromosomeLength=chromosome_length)
     elitism = get_elitism_strategy(**elitism_config)
     selection = get_selection_strategy(**selection_config)
@@ -102,12 +97,12 @@ def main(args):
     # Export result
     print("Problem: " + config_path)
     print("Final best fitness: " + str(final_best_fit))
-    print("Execution time: " + str(execution_time) + " ms")
+    print("Execution time: " + str(execution_time) + " ms\n")
     with open(output_path, 'w') as f:
         json.dump(stats, f, indent=4)
     
     # Plot the results
-    plot_output_path = output_path.rsplit('.', 1)[0] + '.png'
+    plot_output_path = output_path.rsplit('.', 1)[0] + '_curve.png'
     plot(output_path, plot_output_path)
 
 
