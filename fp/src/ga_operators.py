@@ -18,14 +18,15 @@ def tournament_select(population: Population,
                       *args,
                       rand_eng: Callable[[Any], int] = random_gen
                       )-> GeneString | None:
-    best = (None, float("-inf"))
-
-    for count in range(tournament_size):
-        pick_idx = random_int(len(population), *args, "selection", count, random_engine=rand_eng)
-        best = max(best, population[pick_idx], key=lambda x: x[1])
-
-    selected = best[0]
-    return None if selected is None else selected.copy()
+    if tournament_size == 0:
+        return None
+    
+    pool = map(
+        lambda count: population[random_int(len(population), *args, "selection", count, random_engine=rand_eng)],
+        range(tournament_size)
+    )
+    selected, _ = max(pool, key=lambda x: x[1])
+    return selected.copy()
 
 
 def onepoint_crossover(p1: GeneString,
@@ -33,7 +34,7 @@ def onepoint_crossover(p1: GeneString,
                        prob: float,
                        *args,
                        rand_eng: Callable[[Any], int] = random_gen
-                       ) -> tuple[GeneString]:
+                       ) -> tuple[GeneString, GeneString]:
     if len(p1) != len(p2):
         raise ValueError()
     if not random_bernoulli(prob, *args, "crossover", "bernoulli", random_engine=rand_eng):
@@ -56,9 +57,8 @@ def bitflip_mutate(c: GeneString,
                    ) -> GeneString:
     if prob < 0 or prob > 1:
         raise ValueError(f"Mutation probability must be between 0 and 1, got {prob}")
-    
-    mutated = []
-    for i, bit in enumerate(c):
-        mutated.append(not bit if random_bernoulli(prob, *args, "mutation", i, random_engine=rand_eng)
-                       else bit)
+    mutated = list(map(
+        lambda i: not c[i] if random_bernoulli(prob, *args, "mutation", i, random_engine=rand_eng) else c[i],
+        range(len(c))
+    ))
     return mutated
