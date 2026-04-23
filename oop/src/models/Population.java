@@ -16,11 +16,11 @@ public class Population {
         return population[index];
     }
 
-    public Chromosome[] getPopulation() {
-        Chromosome[] copy = new Chromosome[size];
-        System.arraycopy(population, 0, copy, 0, size);
-        return copy;
-    }
+    // public Chromosome[] getPopulation() {
+    //     Chromosome[] copy = new Chromosome[size];
+    //     System.arraycopy(population, 0, copy, 0, size);
+    //     return copy;
+    // }
 
     public int size() {
         return size;

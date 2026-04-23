@@ -17,9 +17,9 @@ def tournament_select(population: Population,
                       tournament_size: int,
                       *args,
                       rand_eng: Callable[[Any], int] = random_gen
-                      )-> GeneString | None:
-    if tournament_size == 0:
-        return None
+                      )-> GeneString:
+    if tournament_size <= 0:
+        raise ValueError()
     
     pool = map(
         lambda count: population[random_int(len(population), *args, "selection", count, random_engine=rand_eng)],
