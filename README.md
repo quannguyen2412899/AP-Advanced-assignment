@@ -70,6 +70,22 @@ What it does:
   
     → outputs: `reports/results_knapsack_oop.json` and `reports/results_knapsack_oop_curve.png`
 
+The OOP implementation can also be executed directly using the Java `Main` entrypoint with any compatible JSON config file:
+
+Compile:
+```bash
+cd oop
+javac -d bin -cp "lib/*" src/models/*.java src/utils/*.java src/fitnesses/*.java src/strategies/*.java src/core/*.java src/reporter/*.java src/setup/*.java src/Main.java
+cd ..
+```
+Then run:
+```bash
+# from repo root
+java -cp "oop/bin:oop/lib/*" Main --config <path/to/config.json> --out <path/to/output.json>
+```
+
+This will export the JSON statistics to `--out` and automatically generate the corresponding plot file by replacing `.json` with `_curve.png`.
+
 ### 3.3 FP Version (Python)
 Run from the repository root:
 
@@ -87,13 +103,25 @@ What it does:
   
     → outputs: `reports/results_knapsack_fp.json` and `reports/results_knapsack_fp_curve.png`
 
+Besides `fp/run.py` (which runs both problems in sequence), the FP implementation can be executed independently with any compatible JSON config by calling the FP `main` entrypoint:
+
+```bash
+# from repo root
+python fp/src/main.py --config <path/to/config.json> --out <path/to/output.json>
+```
+
+This will export the JSON statistics to `--out` and automatically generate the corresponding plot file by appending `_curve.png` to the JSON filename.
+
 ---
 
 ## 4. Implementation Design
 
-Both versions implement the same pipeline:
+Both versions implement the same pipeline (in `oop/src/Main.java` and `fp/src/main.py`):
 
 **Reads config JSON → builds operators → runs GA → prints results → writes JSON → plots PNG.**
+
+This pipeline enables GA to run on any custom configuration (e.g., custom population size, strategy etc.) by modifying the input JSON.
+Therefore, `run.py` simply calls the pipeline twice on the default configurations: `problems/onemax.json` and  `problems/knapsack.json`.
 
 ## 4.1 OOP Design (Java)
 The OOP version is implemented in Java under `oop/src/` and is structured to follow classic OOP principles: **abstraction via interfaces**, **encapsulation of state**, and **pluggable behavior via the Strategy pattern**. The GA “engine” is composed from smaller components (fitness evaluator + operator strategies + RNG utility), so the `GeneticAlgorithm` class itself focuses on orchestration rather than implementing every operator directly.
