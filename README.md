@@ -22,23 +22,41 @@ Both implementations solve the same two benchmark problems using the same GA con
 ---
 
 ## 2. Genetic Algorithm Configuration (Reproducible Setup)
-The GA settings are controlled through configuration files in the repository (e.g., `problems/onemax.json`) and are shared across both implementations.
+The GA settings are controlled through JSON configuration files and are shared across both implementations. The default configurations can be found in `problems/`, a Python script is also provided there for regenerating the config for the Knapsack problem (including generating random values and weights).
 
-### Parameters
-| Parameter | Value |
-| :--- | :--- |
-| Representation | Bitstring |
-| Population size | 100 |
-| Chromosome length | 100 |
-| Parent selection | Tournament, k = 3 |
-| Crossover | One-point, rate = 0.9 |
-| Mutation | Bit-flip, rate per bit = 1/L = 0.01 |
-| Replacement | Elitism |
-| Elitism | e = 2 |
-| Termination | 300 generations |
-| Random seed | 42 |
+Example configuration (from `problems/knapsack.json`):
+```json
+{
+    "populationSize": 100,
+    "chromosomeLength": 100,
+    "maxGenerations": 300,
+    "randomSeed": 42,
+    "selection": {
+        "strategy": "tournamentSelection",
+        "size": 3
+    },
+    "crossover": {
+        "strategy": "onePointCrossover",
+        "rate": 0.9
+    },
+    "mutation": {
+        "strategy": "bitFlipMutation",
+        "ratePerBit": 0.01
+    },
+    "elitismStrategy": {
+        "strategy": "simpleElitism",
+        "count": 2
+    },
+    "problem": {
+        "name": "knapsack",
+        "weights": [41, 8, 2, 48, 18, ...],
+        "values": [30, 25, 18, 41, 45, ...],
+        "capacityOverTotal": 0.4
+    }
+}
+```
 
-Example (from `problems/onemax.json`): population size 100, chromosome length 100, max generations 300, tournament size 3, crossover rate 0.9, mutation rate per bit 0.01, elitism count 2, seed 42.
+Separating configuration from implementation like this makes GA highly customizable.
 
 ---
 
@@ -60,15 +78,15 @@ python oop/run.py
 
 What it does:
 - Compiles Java sources into `oop/bin`
-- Runs GA for both problems using:
+- Runs GA for both problems:
 
-  - `problems/onemax.json`
+  - Input: `problems/onemax.json`
   
-    → outputs: `reports/results_onemax_oop.json` and `reports/results_onemax_oop_curve.png`
+    → Outputs: `reports/results_onemax_oop.json` and `reports/results_onemax_oop_curve.png`
 
-  - `problems/knapsack.json`
+  - Input: `problems/knapsack.json`
   
-    → outputs: `reports/results_knapsack_oop.json` and `reports/results_knapsack_oop_curve.png`
+    → Outputs: `reports/results_knapsack_oop.json` and `reports/results_knapsack_oop_curve.png`
 
 The OOP implementation can also be executed directly using the Java `Main` entrypoint with any compatible JSON config file:
 
@@ -94,16 +112,16 @@ python fp/run.py
 ```
 
 What it does:
-- Executes the FP GA implementation for both problems and writes:
-  - `reports/results_onemax_fp.json`
+- Executes the FP GA implementation for both problems:
+  - Input: `problems/onemax.json`
   
-    → outputs: `reports/results_onemax_fp.json` and `reports/results_onemax_fp_curve.png`
+    → Outputs: `reports/results_onemax_fp.json` and `reports/results_onemax_fp_curve.png`
 
-  - `reports/results_knapsack_fp.json`
+  - Input: `problems/knapsack.json`
   
-    → outputs: `reports/results_knapsack_fp.json` and `reports/results_knapsack_fp_curve.png`
+    → Outputs: `reports/results_knapsack_fp.json` and `reports/results_knapsack_fp_curve.png`
 
-Besides `fp/run.py` (which runs both problems in sequence), the FP implementation can be executed independently with any compatible JSON config by calling the FP `main` entrypoint:
+The FP implementation can be executed independently with any compatible JSON config by calling the FP `main` entrypoint:
 
 ```bash
 # from repo root
@@ -143,7 +161,7 @@ Key FP goals reflected in the implementation:
 - **Function composition / higher-order functions:** The GA is built by composing operator functions into an evolution step (e.g., creating `one_step` through `get_one_step_GA(...)`).
 - **Immutability-by-copy:** Parent selection and operators return `.copy()` results and build new lists rather than mutating the original population in-place.
 - **Declarative transformations:** Operators use `map(...)` and functional-style utilities to transform populations/gene strings.
-- **Minimal side effects:** The primary side effects are restricted to CLI printing; the evolutionary operators themselves are structured as input → output functions.
+- **Minimal side effects:** The primary side effects are restricted to CLI printing; the evolutionary operators themselves are structured as input → output functions; randomization is hash-based (stateless, same input, same ouput).
 
 ### Data representation (FP)
 - A chromosome is represented as a `(genestring, fitness)` tuple, where:
@@ -180,43 +198,52 @@ The `reports/` directory in the repository contains:
   - `reports/results_onemax_oop_curve.png`
   - `reports/results_knapsack_oop_curve.png`
 
-  **Behavior:** fitness increases quickly and approaches 100 within 50 generations.
-
 - FP's result: 
   - `reports/results_onemax_fp.json`
   - `reports/results_knapsack_fp.json`
   - `reports/results_onemax_fp_curve.png`
   - `reports/results_knapsack_fp_curve.png`
 
-  **Behavior:** fitness improves over generations but plateaus due to feasibility constraints and local optima.
-
-
-The following final results were printed by each implementation when running:
+### Key results:
 
 ### OOP (Java)
 - **OneMax**
   - Final best fitness: **100.0**
   - Execution time: **135.152657 ms**
+    
+  ![From `reports/results_onemax_oop_curve.png`](./reports/results_onemax_oop_curve.png)
+  
 - **Knapsack**
   - Final best fitness: **1857.0**
   - Execution time: **206.027027 ms**
+ 
+  ![From `reports/results_knapsack_oop_curve.png`](./reports/results_knapsack_oop_curve.png)
 
 ### FP (Python)
 - **OneMax**
   - Final best fitness: **100**
   - Execution time: **16845.593214035034 ms**
+ 
+  ![From `reports/results_onemax_fp_curve.png`](./reports/results_onemax_fp_curve.png)
+  
 - **Knapsack**
   - Final best fitness: **1854**
   - Execution time: **19985.15796661377 ms**
 
+  ![From `reports/results_knapsack_fp_curve.png`](./reports/results_knapsack_fp_curve.png)
+  
 *Note: Java's ~100× speed advantage is due to compiled bytecode vs Python interpretation; actual execution time also depends on hardware and system load.*
+
+### **Overall behavior:**
+  - **Onemax:** fitness increases quickly and approaches 100 within 50 generations.
+  - **Knapsack:** fitness improves over generations but plateaus due to feasibility constraints and local optima.
 
 ---
 
 ## 6. Testing
 Both implementations include minimal unit tests under `oop/tests/` and `fp/tests/`.
 
-To test the stochastic operators:
+Method to test stochastic operators:
 - In OOP version: implement `FakeRandomUtil` that extends `RandomUtil` to inject controlled sequences
 - In FP version: implement `fake_random_engine` that returns predetermined sequences passed as `rand_eng` parameter
 
